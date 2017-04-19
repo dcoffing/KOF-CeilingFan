@@ -1,7 +1,8 @@
 /**
  *  King Of Fans Zigbee Fan Controller
  ***
- *  To be used with Zigbee receiver from Home Decorators Collection, Hampton Bay 
+ *  To be used with Ceiling Fan Remote Controller Model MR101Z receiver by Chungear Industrial Co. Ltd
+ *  at Home Depot Gardinier 52" Ceiling Fan, Universal Ceiling Fan/Light Premier Remote Model #99432
  *
  *  Copyright 2017 Ranga Pedamallu, Stephan Hackett, Dale Coffing
  *
@@ -72,7 +73,7 @@ metadata {
 		state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
 	}
     valueTile("version", "version", width: 2, height: 2) {
-    	state "version", label:"KOF Ceiling Fan"+"\r\n"+"Device Handler"+"\r\r\n"+" Beta Version"+"\r\n"+"v0.2.1.20170418"+"\r\r\n"
+    	state "version", label:"KOF Ceiling Fan"+"\r\n"+"Device Handler"+"\r\r\n"+" Beta Version"+"\r\n"+"v0.2.1.20170419"+"\r\r\n"
 		}
     childDeviceTiles("fanSpeeds")
 	main(["switch"])        
