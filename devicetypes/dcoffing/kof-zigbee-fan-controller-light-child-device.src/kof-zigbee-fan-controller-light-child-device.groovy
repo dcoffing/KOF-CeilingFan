@@ -1,6 +1,6 @@
 /**
  *  King Of Fans Zigbee Fan Controller - Light Child Device
- *
+ **
  *  Copyright 2017 Stephan Hackett
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except

@@ -1,6 +1,6 @@
 /**
  *  King Of Fans Zigbee Fan Controller
- *
+ **
  *  To be used with Zigbee receiver from Home Decorators Collection, Hampton Bay 
  *
  *  Copyright 2017 Ranga Pedamallu, Stephan Hackett, Dale Coffing
