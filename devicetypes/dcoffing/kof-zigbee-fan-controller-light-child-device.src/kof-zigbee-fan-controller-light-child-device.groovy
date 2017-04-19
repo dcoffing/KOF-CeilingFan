@@ -34,12 +34,12 @@ metadata {
     		}
     	}
     
-        
-        
-		 	
-    
+      valueTile("version", "version", width: 2, height: 2) {
+    	state "version", label:"KOF Ceiling Fan"+"\r\n"+"Light Child Device"+"\r\r\n"+" Beta Version"+"\r\n"+"v0.2.1.20170419"+"\r\r\n"
+		}  
+      
     	main(["switch"])        
-		details(["switch"])    
+		details(["switch", "version"])    
     }
 	
 }
