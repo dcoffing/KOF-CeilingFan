@@ -68,10 +68,14 @@ metadata {
 	}  	  
    	standardTile("refresh", "refresh", decoration: "flat", width: 2, height: 2) {
 		state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
-	}  	
+	}  
+	valueTile("version", "version", width: 2, height: 2) {
+	    state "version", label:"KOF Ceiling Fan"+"\r\n"+"Device Handler"+"\r\r\n"+" Beta Version"+"\r\n"+"v0.2.1.20170418"+"\r\r\n"
+		}
+	    
     childDeviceTiles("fanSpeeds")
 	main(["switch"])        
-	details(["switch", "fanSpeeds", "refresh"])
+	details(["switch", "fanSpeeds", "refresh", "version"])
 	}
 }
 
