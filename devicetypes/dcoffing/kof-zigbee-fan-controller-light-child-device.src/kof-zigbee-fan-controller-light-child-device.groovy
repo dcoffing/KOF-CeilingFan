@@ -13,6 +13,9 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  */
+  def version() {return "v0.2.1.20170420" }
+//  04/20 modified version tile 
+//  04/19 added version tile to help in troubleshooting with users
 metadata {
 	definition (name: "KOF Zigbee Fan Controller - Light Child Device", namespace: "dcoffing", author: "Stephan Hackett") {
 		capability "Actuator"
@@ -35,7 +38,7 @@ metadata {
     	}
     
       valueTile("version", "version", width: 2, height: 2) {
-    	state "version", label:"KOF Ceiling Fan"+"\r\n"+"Light Child Device"+"\r\r\n"+" Beta Version"+"\r\n"+"v0.2.1.20170419"+"\r\r\n"
+    	state "version", label:"KOF Ceiling Fan"+"\r\n"+"Light Child Device"+"\r\r\n"+" Beta Version"+"\r\n"+ version() +"\r\r\n"
 		}  
       
     	main(["switch"])        
