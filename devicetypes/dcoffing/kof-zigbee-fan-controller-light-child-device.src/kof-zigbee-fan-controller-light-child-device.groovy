@@ -1,7 +1,8 @@
 /**
  *  King Of Fans Zigbee Fan Controller - Light Child Device
- **
+ *
  *  Copyright 2017 Stephan Hackett
+ *  in collaboration with Ranga Pedamallu, Dale Coffing
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -12,8 +13,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  *
- */
-  def version() {return "v0.2.1.20170420" }
+ */ 
+ def version() {return "v0.2.1.20170426" }
+//  04/26 moved icons to KOF repo and renamed for final release
 //  04/20 modified version tile 
 //  04/19 added version tile to help in troubleshooting with users
 metadata {
@@ -29,15 +31,15 @@ metadata {
 	tiles(scale: 2) { 		
         multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true) {
     		tileAttribute ("switch", key: "PRIMARY_CONTROL") {
-        		attributeState "off", label:"off", action: "on", icon:"https://raw.githubusercontent.com/dcoffing/SmartThingsPublic/master/devicetypes/dcoffing/hampton-bay-universal-ceiling-fan-light-controller.src/Light175xfinal.png", backgroundColor: "#ffffff", nextState: "on"
-				attributeState "on", label: "on", action: "off", icon:"https://raw.githubusercontent.com/dcoffing/SmartThingsPublic/master/devicetypes/dcoffing/hampton-bay-universal-ceiling-fan-light-controller.src/Light175xfinal.png", backgroundColor: "#00A0DC", nextState: "off"
+        		attributeState "off", label:"off", action: "on", icon:"https://raw.githubusercontent.com/dcoffing/KOF-CeilingFan/master/devicetypes/dcoffing/kof-zigbee-fan-controller.src/Light.png", backgroundColor: "#ffffff", nextState: "on"
+				attributeState "on", label: "on", action: "off", icon:"https://raw.githubusercontent.com/dcoffing/KOF-CeilingFan/master/devicetypes/dcoffing/kof-zigbee-fan-controller.src/Light.png", backgroundColor: "#00A0DC", nextState: "off"
         	}    	
     		tileAttribute ("device.level", key: "SLIDER_CONTROL") {
         		attributeState "level", action: "setLevel"
     		}
     	}
     
-      valueTile("version", "version", width: 2, height: 2) {
+      valueTile("version", "version", width: 4, height: 2) {
     	state "version", label:"KOF Ceiling Fan"+"\r\n"+"Light Child Device"+"\r\r\n"+" Beta Version"+"\r\n"+ version() +"\r\r\n"
 		}  
       
