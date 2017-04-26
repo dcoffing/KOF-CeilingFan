@@ -21,7 +21,8 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  */
-def version() {return "v0.2.1b.20170419" }
+def version() {return "v0.2.1b.20170425" }
+//  04/20 label changes
 // 0.2.1b parent on-off states sync with any child state for ActionTiles
 //  04/19 added version tile to help in troubleshooting with users
 
@@ -128,28 +129,28 @@ def parse(String description) {
 }
 
 def getFanName() { 
-	[  
+	[ 
     "00":"OFF",
     "01":"LOW",
-    "02":"MEDIUM",
-    "03":"MEDIUM HIGH",
+    "02":"MED",
+    "03":"MED-HI",
 	"04":"HIGH",
     "05":"OFF",
     "06":"BREEZE",
-    "07":"LAMP"
+    "07":"LIGHT"
 	]
 }
 
 def getFanNameAbbr() { 
 	[  
-    "00":"OFF",
-    "01":"LOW",
-    "02":"MED",
-    "03":"MED-HI",
-	"04":"HI",
-    "05":"OFF",
-    "06":"BREEZE",
-    "07":"LAMP"
+    "00":"[ OFF ]",
+    "01":"[ LOW ]",
+    "02":"[ MED ]",
+    "03":"[ MED-HI ]",
+	"04":"[ HIGH ]",
+    "05":"[ OFF ]",
+    "06":"[ BREEZE ]",
+    "07":"LIGHT"
 	]
 }
 
@@ -178,7 +179,9 @@ def createFanChild() {
         	it.device.deviceNetworkId == "${device.deviceNetworkId}-0${i}"
     	}                 
         if (!childDevice && i != 5) {        
-        	childDevice = addChildDevice("KOF Zigbee Fan Controller - Fan Speed Child Device", "${device.deviceNetworkId}-0${i}", null,[completedSetup: true, label: "${device.displayName} ${getFanName()["0${i}"]}", isComponent: true, componentName: "fanMode${i}", componentLabel: "Fan Speed ${getFanNameAbbr()["0${i}"]}", "data":["speedVal":"0${i}","parent version":version()]])
+        	childDevice = addChildDevice("KOF Zigbee Fan Controller - Fan Speed Child Device", "${device.deviceNetworkId}-0${i}",
+            	null,[completedSetup: true, label: "${device.displayName} ${getFanName()["0${i}"]}", isComponent: true,
+                componentName: "fanMode${i}", componentLabel: "Speed - ${getFanNameAbbr()["0${i}"]}", "data":["speedVal":"0${i}","parent version":version()]])
         	response(refresh() + configure())
            	log.info "Creating child fan mode ${childDevice}"  
 		}
@@ -193,7 +196,9 @@ def createLightChild() {
         	it.device.deviceNetworkId == "${device.deviceNetworkId}-Lamp"
     }
     if (!childDevice) {  
-		childDevice = addChildDevice("KOF Zigbee Fan Controller - Light Child Device", "${device.deviceNetworkId}-Lamp", null,[completedSetup: true, label: "${device.displayName} LAMP", isComponent: false, componentName: "fanLight", componentLabel: "Fan LAMP", "data":["parent version":version()]])
+		childDevice = addChildDevice("KOF Zigbee Fan Controller - Light Child Device", "${device.deviceNetworkId}-Lamp",
+            null,[completedSetup: true, label: "${device.displayName} Light", isComponent: false, componentName: "fanLight",
+        	componentLabel: "Light", "data":["parent version":version()]])
         response(refresh() + configure())
         log.info "Creating child light ${childDevice}" 
     }
