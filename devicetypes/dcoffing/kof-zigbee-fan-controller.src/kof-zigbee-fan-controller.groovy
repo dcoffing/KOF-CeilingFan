@@ -22,7 +22,7 @@
  *
  */
 def version() {return "v0.2.1b.20170425" }
-//  04/20 label changes
+//  04/25 label changes; Breeze color #008B64
 // 0.2.1b parent on-off states sync with any child state for ActionTiles
 //  04/19 added version tile to help in troubleshooting with users
 
@@ -63,7 +63,7 @@ metadata {
 			attributeState "03", label:"MED-HI", action:"off", icon:"st.Lighting.light24", backgroundColor:"#669c1c", nextState: "turningOff"
 			attributeState "02", label:"MED", action:"off", icon:"st.Lighting.light24", backgroundColor:"#79b821", nextState: "turningOff"
 			attributeState "01", label:"LOW", action:"off", icon:"st.Lighting.light24", backgroundColor:"#8ad424", nextState: "turningOff"
-			attributeState "06", label:"BREEZE", action:"off", icon:"st.Lighting.light24", backgroundColor:"#00A0DC", nextState: "turningOff"
+			attributeState "06", label:"BREEZE", action:"off", icon:"st.Lighting.light24", backgroundColor:"#008B64", nextState: "turningOff"
         	attributeState "00", label:"FAN OFF", action:"on", icon:"st.Lighting.light24", backgroundColor:"#ffffff", nextState: "turningOn"
 			attributeState "turningOn", action:"on", label:"TURNING ON", icon:"st.Lighting.light24", backgroundColor:"#2179b8", nextState: "turningOn"
 			attributeState "turningOff", action:"off", label:"TURNING OFF", icon:"st.Lighting.light24", backgroundColor:"#2179b8", nextState: "turningOff"
