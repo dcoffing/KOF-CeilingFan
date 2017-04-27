@@ -1,9 +1,9 @@
 
-//   Zigbee 4 Speed Ceiling Fan Thermostst Control
+//   Zigbee 4 Speed Ceiling Fan Thermostat Control
    
   def version() {return "v2.1b.20170427b" }    
 /*  Change Log
-      b - fixed but in parent name when creating new automation, modified description, user manual    
+      b - fixed parent name when creating new automation, modified description, user manual    
   04-27  starting modifications for zigbee
   2017-04-11 Added 10.0 selection for Fan Differential Temp to mimic single speed control
   2016-10-19 Ver2 Parent / Child app to allow for multiple use cases with a single install - @ericvitale
