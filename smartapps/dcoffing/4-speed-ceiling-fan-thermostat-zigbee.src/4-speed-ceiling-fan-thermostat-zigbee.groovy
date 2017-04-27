@@ -52,7 +52,7 @@ def childStartPage() {
 			input "tempSensor", "capability.temperatureMeasurement", multiple:false, title: "Temperature Sensor", required: true, submitOnChange: true  
 		}
         if (tempSensor) {  //protects from a null error
-    		section("Enter the desired room temperature setpoint...\n" + "NOTE: ${tempSensor.displayName} room temp is ${tempSensor.currentTemperature}° currently"){
+    		section("Enter the desired room temperature setpoint...\n" + "NOTE: ${tempSensor.displayName} room temp is currently ${tempSensor.currentTemperature}°"){
         		input "setpoint", "decimal", title: "Room Setpoint Temp", defaultValue: tempSensor.currentTemperature, required: true
     		}
         }
@@ -60,7 +60,7 @@ def childStartPage() {
         	section("Enter the desired room temperature setpoint..."){
         		input "setpoint", "decimal", title: "Room Setpoint Temp", required: true
     		}       
-        section("Select the Zigbee ceiling fan/light control hardware..."){
+        section("Select the Zigbee ceiling fan device (NOT Light or Speeds)..."){
         // fanDimmer
 			input "fanSwitch", "capability.switch", multiple:false, title: "Zigbee Fan Control device", required: true
 		}
