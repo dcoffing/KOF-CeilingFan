@@ -13,7 +13,7 @@ definition(
     name: "4 Speed Ceiling Fan Thermostat - Zigbee",
     namespace: "dcoffing",
     author: "Dale Coffing",
-    description: "Thermostat control for Zigbee 4 Speed Ceiling Fan device MR101Z staging Low, Medium, Medium-High, High speeds with any temperature sensor.",
+    description: "Thermostat control for Zigbee 4 Speed Ceiling Fan device MR101Z staging Low, Medium, Medium-High, High speeds with any temperature sensor.\n"+ "Version "+ version(),
     category: "My Apps",
     singleInstance: true,
 	iconUrl: "https://raw.githubusercontent.com/dcoffing/SmartThingsPublic/master/smartapps/dcoffing/3-speed-ceiling-fan-thermostat.src/3scft125x125.png", 
@@ -293,5 +293,5 @@ private def textHelp() {
         " mode option will disable the smartapp and pass control to manual control.\n\n"+
         "This app uses the 'KOF Zigbee Fan Controller Custom Device Handler' written for hardware"+
         " from Hampton Bay Wink Ceiling Fan MR101Z receiver in the Gardinier 52' Ceiling Fan or"+
-        " Universal Ceiling Fan Premier Remote from Home Depot.r"
+        " Universal Ceiling Fan Premier Remote from Home Depot."
 	}
