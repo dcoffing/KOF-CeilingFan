@@ -21,7 +21,8 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  */
-def version() {return "v0.2.1b.20170425" }
+def version() {return "v0.2.1b.20170426" }
+//  04/26 label changes to read naturally, CAP light to match child speeds
 //  04/25 label changes; Breeze color #008B64
 // 0.2.1b parent on-off states sync with any child state for ActionTiles
 //  04/19 added version tile to help in troubleshooting with users
@@ -143,13 +144,13 @@ def getFanName() {
 
 def getFanNameAbbr() { 
 	[  
-    "00":"[ OFF ]",
-    "01":"[ LOW ]",
-    "02":"[ MED ]",
-    "03":"[ MED-HI ]",
-	"04":"[ HIGH ]",
-    "05":"[ OFF ]",
-    "06":"[ BREEZE ]",
+    "00":"OFF",
+    "01":"LOW",
+    "02":"MEDIUM",
+    "03":"MEDIUM-HIGH",
+	"04":"HIGH",
+    "05":"OFF",
+    "06":"BREEZE",
     "07":"LIGHT"
 	]
 }
@@ -180,8 +181,8 @@ def createFanChild() {
     	}                 
         if (!childDevice && i != 5) {        
         	childDevice = addChildDevice("KOF Zigbee Fan Controller - Fan Speed Child Device", "${device.deviceNetworkId}-0${i}",
-            	null,[completedSetup: true, label: "${device.displayName} ${getFanName()["0${i}"]}", isComponent: true,
-                componentName: "fanMode${i}", componentLabel: "Speed - ${getFanNameAbbr()["0${i}"]}", "data":["speedVal":"0${i}","parent version":version()]])
+            	null,[completedSetup: true, label: "${device.displayName} ${getFanName()["0${i}"]} Speed", isComponent: true,
+                componentName: "fanMode${i}", componentLabel: "${getFanNameAbbr()["0${i}"]} Speed", "data":["speedVal":"0${i}","parent version":version()]])
         	response(refresh() + configure())
            	log.info "Creating child fan mode ${childDevice}"  
 		}
@@ -198,7 +199,7 @@ def createLightChild() {
     if (!childDevice) {  
 		childDevice = addChildDevice("KOF Zigbee Fan Controller - Light Child Device", "${device.deviceNetworkId}-Lamp",
             null,[completedSetup: true, label: "${device.displayName} Light", isComponent: false, componentName: "fanLight",
-        	componentLabel: "Light", "data":["parent version":version()]])
+        	componentLabel: "LIGHT", "data":["parent version":version()]])
         response(refresh() + configure())
         log.info "Creating child light ${childDevice}" 
     }
