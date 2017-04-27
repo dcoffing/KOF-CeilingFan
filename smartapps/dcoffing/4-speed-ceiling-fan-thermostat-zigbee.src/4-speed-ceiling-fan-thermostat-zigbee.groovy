@@ -291,7 +291,7 @@ private def textHelp() {
         " manufacturers use by always starting in high speed. \n\n"+
       	"A motion option turns off automatic mode when no motion is detected. A thermostat"+
         " mode option will disable the smartapp and pass control to manual control.\n\n"+
-        "@ChadCK's 'Z-Wave Smart Fan Control Custom Device Handler' along with hardware"+
-        " designed specifically for motor control such as the GE 12730 Z-Wave Smart Fan Control or"+
-        " Leviton VRF01-1LX works well together with this smartapp."
+        "This app uses the 'KOF Zigbee Fan Controller Custom Device Handler' written for hardware"+
+        " from Hampton Bay Wink Ceiling Fan MR101Z receiver in the Gardinier 52' Ceiling Fan or"+
+        " Universal Ceiling Fan Premier Remote from Home Depot.r"
 	}
