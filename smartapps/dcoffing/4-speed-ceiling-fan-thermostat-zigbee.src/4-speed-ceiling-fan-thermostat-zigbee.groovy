@@ -1,9 +1,9 @@
 
 //   Zigbee 4 Speed Ceiling Fan Thermostst Control
    
-  def version() {return "v2.1b.20170427" }    
+  def version() {return "v2.1b.20170427b" }    
 /*  Change Log
-  bug, even though published and I load this from MyApps it still is using the older version code from zwave parent/child
+      b - fixed but in parent name when creating new automation, modified description, user manual    
   04-27  starting modifications for zigbee
   2017-04-11 Added 10.0 selection for Fan Differential Temp to mimic single speed control
   2016-10-19 Ver2 Parent / Child app to allow for multiple use cases with a single install - @ericvitale
@@ -13,7 +13,7 @@ definition(
     name: "4 Speed Ceiling Fan Thermostat - Zigbee",
     namespace: "dcoffing",
     author: "Dale Coffing",
-    description: "Thermostat control for Zigbee 4 Speed Ceiling Fan device (Home Decorators Ceiling Fan/Light Controller MR101Z) using Low, Medium, Medium-High, High speeds with any temperature sensor.",
+    description: "Thermostat control for Zigbee 4 Speed Ceiling Fan device MR101Z staging Low, Medium, Medium-High, High speeds with any temperature sensor.",
     category: "My Apps",
     singleInstance: true,
 	iconUrl: "https://raw.githubusercontent.com/dcoffing/SmartThingsPublic/master/smartapps/dcoffing/3-speed-ceiling-fan-thermostat.src/3scft125x125.png", 
@@ -40,7 +40,7 @@ def startPage() {
 def parentPage() {
 	return dynamicPage(name: "parentPage", title: "", nextPage: "", install: false, uninstall: true) {
         section("Create a new fan automation.") {
-            app(name: "childApps", appName: appName(), namespace: "dcoffing", title: "New Ceiling Fan Automation", multiple: true)
+            app(name: "childApps", appName: appName(), namespace: "dcoffing", title: "New Zigbee Ceiling Fan Automation", multiple: true)
         }
     }
 }
@@ -124,7 +124,7 @@ def aboutPage() {
 /* I might be able to take advantage of this next line of code to selectively open the zwave OR the zigbee parent based on hardware input selected?
 private def appName() { return "${parent ? "3 Speed Fan Automation" : "3 Speed Ceiling Fan Thermostat"}" }
 */
-private def appName() { return "${parent ? "3 Speed Fan Automation" : "3 Speed Ceiling Fan Thermostat - Zigbee"}" }
+private def appName() { return "${parent ? "3 Speed Fan Automation" : "4 Speed Ceiling Fan Thermostat - Zigbee"}" }
 
 def installed() {
 	log.debug "def INSTALLED with settings: ${settings}"
