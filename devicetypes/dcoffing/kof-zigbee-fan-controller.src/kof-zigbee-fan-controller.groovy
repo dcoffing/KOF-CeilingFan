@@ -21,11 +21,14 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  */
-def version() {return "v0.2.1b.20170426" }
-//  04/26 label changes to read naturally, CAP light to match child speeds
-//  04/25 label changes; Breeze color #008B64
-// 0.2.1b parent on-off states sync with any child state for ActionTiles
-//  04/19 added version tile to help in troubleshooting with users
+def version() {return "v0.2.1.20170427" }
+/*
+ 04/27 add child version tiles to parent
+ 04/26 label changes to read naturally, CAP light to match child speeds
+ 04/25 label changes; Breeze color #008B64
+ 0.2.1b parent on-off states sync with any child state for ActionTiles
+ 04/19 added version tile to help in troubleshooting with users
+*/
 
 metadata {
 	definition (name: "KOF Zigbee Fan Controller", namespace: "dcoffing", author: "Stephan Hackett, Ranga Pedamallu, Dale Coffing") {
@@ -43,9 +46,11 @@ metadata {
         command "lightLevel"
         command "setFanSpeed"
         
-        attribute "fanMode", "string"
-        attribute "lightBrightness", "number"    
-        attribute "lastFanMode", "string"        
+        attribute "fanMode", "string" 		//stores fanspeed
+        attribute "lightBrightness", "number" //stores brightness level  
+        attribute "lastFanMode", "string"	//used to restore previous fanmode
+        attribute "LchildVer", "string"		//stores light child version
+		attribute "FchildVer", "string"		//stores fan child version
       
 	fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HDC52EastwindFan"
     }
@@ -76,14 +81,21 @@ metadata {
    	standardTile("refresh", "refresh", decoration: "flat", width: 2, height: 2) {
 		state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
 	}  
-    valueTile("version", "version", width:4, height:2) {
-    	state "default", label:"KOF Ceiling Fan"+"\r\n"+"Device Handler"+"\r\r\n"+" Beta Version"+"\r\n"+ version()+"\r\r\n"
+    valueTile("version", "version", width:3, height:1) {
+    	state "version", label:"Ceiling Fan Parent\n" + version()
+ //   	state "default", label:"KOF Ceiling Fan"+"\r\n"+"Device Handler"+"\r\r\n"+" Beta Version"+"\r\n"+ version()+"\r\r\n"
+    }
+    valueTile("FchildVer", "FchildVer", width:3, height:1) {
+     	state "FchildVer", label: "Fan Child\n"+'${currentValue}'
+    }
+    valueTile("LchildVer", "LchildVer", width:3, height:1) {
+     	state "LchildVer", label:"Light Child\n"+'${currentValue}'
     }
        
     childDeviceTiles("fanSpeeds")
     
 	main(["switch"])        
-	details(["switch", "fanSpeeds", "refresh", "version"])
+	details(["switch", "fanSpeeds", "version", "refresh", "FchildVer", "LchildVer"])
 	}
 }
 
@@ -180,9 +192,9 @@ def createFanChild() {
         	it.device.deviceNetworkId == "${device.deviceNetworkId}-0${i}"
     	}                 
         if (!childDevice && i != 5) {        
-        	childDevice = addChildDevice("KOF Zigbee Fan Controller - Fan Speed Child Device", "${device.deviceNetworkId}-0${i}",
-            	null,[completedSetup: true, label: "${device.displayName} ${getFanName()["0${i}"]} Speed", isComponent: true,
-                componentName: "fanMode${i}", componentLabel: "${getFanNameAbbr()["0${i}"]} Speed", "data":["speedVal":"0${i}","parent version":version()]])
+        	childDevice = addChildDevice("KOF Zigbee Fan Controller - Fan Speed Child Device", "${device.deviceNetworkId}-0${i}", null,[completedSetup: true,
+                label: "${device.displayName} ${getFanName()["0${i}"]}", isComponent: true, componentName: "fanMode${i}",
+                componentLabel: "${getFanNameAbbr()["0${i}"]} Speed", "data":["speedVal":"0${i}","parent version":version()]])
         	response(refresh() + configure())
            	log.info "Creating child fan mode ${childDevice}"  
 		}
@@ -197,8 +209,8 @@ def createLightChild() {
         	it.device.deviceNetworkId == "${device.deviceNetworkId}-Lamp"
     }
     if (!childDevice) {  
-		childDevice = addChildDevice("KOF Zigbee Fan Controller - Light Child Device", "${device.deviceNetworkId}-Lamp",
-            null,[completedSetup: true, label: "${device.displayName} Light", isComponent: false, componentName: "fanLight",
+		childDevice = addChildDevice("KOF Zigbee Fan Controller - Light Child Device", "${device.deviceNetworkId}-Lamp", null,[completedSetup: true, 
+            label: "${device.displayName} Light", isComponent: false, componentName: "fanLight",
         	componentLabel: "LIGHT", "data":["parent version":version()]])
         response(refresh() + configure())
         log.info "Creating child light ${childDevice}" 
@@ -311,5 +323,18 @@ def ping() {
 }
 
 def refresh() {	
-    zigbee.onOffRefresh() + zigbee.levelRefresh() + zigbee.readAttribute(0x0202, 0x0000)
+	getChildVer()
+    zigbee.onOffRefresh() + zigbee.levelRefresh() + zigbee.readAttribute(0x0202, 0x0000)  
+}
+ 
+def getChildVer() {
+ 	def FchildDevice = getChildDevices()?.find {
+         	it.device.deviceNetworkId == "${device.deviceNetworkId}-01"
+    }                 
+ 	sendEvent(name:"FchildVer", value: FchildDevice.version())	//find a fan device, get version info and store in FchildVer
+    
+    def LchildDevice = getChildDevices()?.find {
+         	it.device.deviceNetworkId == "${device.deviceNetworkId}-Lamp"
+    }                 
+	sendEvent(name:"LchildVer", value: LchildDevice.version())	//find the light device, get version info and store in LchildVer
 }
