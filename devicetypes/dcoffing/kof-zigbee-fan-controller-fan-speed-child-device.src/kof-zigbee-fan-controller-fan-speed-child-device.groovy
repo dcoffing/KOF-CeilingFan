@@ -35,7 +35,7 @@ metadata {
         	state "turningOn", label:"ADJUST", action: "", icon:"https://raw.githubusercontent.com/dcoffing/KOF-CeilingFan/master/devicetypes/dcoffing/kof-zigbee-fan-controller.src/Fan.png", backgroundColor: "#2179b8"        	 
 		}
     valueTile("version", "version", width: 4, height: 2) {
-    	state "version", label:"KOF Ceiling Fan"+"\r\n"+"Speed Child Device"+"\r\r\n"+" Beta Version"+"\r\n"+version()+"\r\r\n"
+    	state "version", label:"Fan Speed Child\n" + version()
 		}
     
     	main(["switch"])        

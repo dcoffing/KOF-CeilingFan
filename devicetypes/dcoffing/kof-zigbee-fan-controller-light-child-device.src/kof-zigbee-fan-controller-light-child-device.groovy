@@ -39,8 +39,8 @@ metadata {
     		}
     	}
     
-      valueTile("version", "version", width: 4, height: 2) {
-    	state "version", label:"KOF Ceiling Fan"+"\r\n"+"Light Child Device"+"\r\r\n"+" Beta Version"+"\r\n"+ version() +"\r\r\n"
+      valueTile("version", "version", width: 6, height: 2) {
+          	state "version", label:"Light Child\n" + version()
 		}  
       
     	main(["switch"])        

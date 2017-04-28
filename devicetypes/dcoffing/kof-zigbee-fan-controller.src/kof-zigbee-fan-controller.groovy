@@ -83,10 +83,9 @@ metadata {
 	}  
     valueTile("version", "version", width:3, height:1) {
     	state "version", label:"Ceiling Fan Parent\n" + version()
- //   	state "default", label:"KOF Ceiling Fan"+"\r\n"+"Device Handler"+"\r\r\n"+" Beta Version"+"\r\n"+ version()+"\r\r\n"
     }
     valueTile("FchildVer", "FchildVer", width:3, height:1) {
-     	state "FchildVer", label: "Fan Child\n"+'${currentValue}'
+     	state "FchildVer", label: "Fan Speed Child\n"+'${currentValue}'
     }
     valueTile("LchildVer", "LchildVer", width:3, height:1) {
      	state "LchildVer", label:"Light Child\n"+'${currentValue}'
