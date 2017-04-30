@@ -13,8 +13,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "v0.2.1.20170429"}
+ def version() {return "v0.2.1.20170430a"}
 /*
+04/30a move Stephack latest changes over in a copy/paste; change namespace
  04/29 larger matching icon; used URL shortcut https://cdn.rawgit.com/ and located to /resources/images/
  04/26 moved icons to KOF repo and renamed for final release
  04/20 modified version tile 
@@ -27,30 +28,30 @@ metadata {
         capability "Switch Level"
         capability "Light"
         capability "Sensor" 
-   }     
-
+   }
 
 	tiles(scale: 2) { 		
         multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true) {
     		tileAttribute ("switch", key: "PRIMARY_CONTROL") {
-        		attributeState "off", label:"off", action: "on", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/lightH.png", backgroundColor: "#ffffff", nextState: "on"
-				attributeState "on", label: "on", action: "off", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/lightH.png", backgroundColor: "#00A0DC", nextState: "off"
+        		attributeState "off", label:"off", action: "on", icon: getIcon()+"light.png", backgroundColor: "#ffffff", nextState: "turningOn"
+				attributeState "on", label: "on", action: "off", icon: getIcon()+"lightH.png", backgroundColor: "#00A0DC", nextState: "turningOff"
+                attributeState "turningOn", label:"TURNING ON", action: "on", icon: getIcon()+"light.png", backgroundColor: "#2179b8", nextState: "turningOn"
+            	attributeState "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"lightH.png", backgroundColor:"#2179b8", nextState: "turningOff"
         	}    	
     		tileAttribute ("device.level", key: "SLIDER_CONTROL") {
         		attributeState "level", action: "setLevel"
     		}
+            
     	}
-    
-      valueTile("version", "version", width: 6, height: 2) {
-          	state "version", label:"Light Child\n" + version()
-		}  
-      
+                
     	main(["switch"])        
-		details(["switch", "version"])    
-    }
-	
+		details(["switch"])    
+    }	
 }
 
+def getIcon() {
+	return "https://raw.githubusercontent.com/dcoffing/KOF-CeilingFan/master/resources/images/"
+}
 
 def on() {
 	parent.lightOn()
