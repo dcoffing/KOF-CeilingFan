@@ -12,12 +12,14 @@
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
- *
  */ 
- def version() {return "v0.2.1.20170426" }
-//  04/26 moved icons to KOF repo and renamed for final release
-//  04/20 modified version tile 
-//  04/19 added version tile to help in troubleshooting with users
+ def version() {return "v0.2.1.20170429"}
+ /*
+ 04/29 used new icon URL shortcut https://cdn.rawgit.com/ and located to /resources/images/
+ 04/26 moved icons to KOF repo and renamed for final release
+ 04/20 modified version tile 
+ 04/19 added version tile to help in troubleshooting with users
+*/
 metadata {
 	definition (name: "KOF Zigbee Fan Controller - Fan Speed Child Device", namespace: "dcoffing", author: "Stephan Hackett") {
 		capability "Actuator"
@@ -30,9 +32,9 @@ metadata {
    
    tiles(scale: 2) {
 		standardTile("switch", "switch", width: 2, height: 2) {
-     		state "off", label:"off", action: "on", icon:"https://raw.githubusercontent.com/dcoffing/KOF-CeilingFan/master/devicetypes/dcoffing/kof-zigbee-fan-controller.src/Fan.png", backgroundColor: "#ffffff", nextState: "turningOn"
-			state "on", label: "on", action: "off", icon:"https://raw.githubusercontent.com/dcoffing/KOF-CeilingFan/master/devicetypes/dcoffing/kof-zigbee-fan-controller.src/Fan.png", backgroundColor: "#79b821", nextState: "turningOff"
-        	state "turningOn", label:"ADJUST", action: "", icon:"https://raw.githubusercontent.com/dcoffing/KOF-CeilingFan/master/devicetypes/dcoffing/kof-zigbee-fan-controller.src/Fan.png", backgroundColor: "#2179b8"        	 
+     		state "off", label:"ENABLE", action: "on", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/Fan.png", backgroundColor: "#ffffff", nextState: "turningOn"
+			state "on", label: "ON", action: "off", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/Fan.png", backgroundColor: "#79b821", nextState: "turningOff"
+        	state "turningOn", label:"ADJUST", action: "", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/Fan.png", backgroundColor: "#2179b8"        	 
 		}
     valueTile("version", "version", width: 4, height: 2) {
     	state "version", label:"Fan Speed Child\n" + version()

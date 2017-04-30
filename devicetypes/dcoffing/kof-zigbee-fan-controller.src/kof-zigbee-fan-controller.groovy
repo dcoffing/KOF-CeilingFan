@@ -19,9 +19,10 @@
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
- *
  */
-def version() {return "v0.2.20170428e" } /*
+def version() {return "v0.2.20170429" }
+/*
+ 04/29 new icons with fanspeed bar
 	e- added changes from Stephan to fix createChild error
 	d- go back to orginal code on line 182
 	c- createFanChild code added line 182 ChildDevice this part is the BUG that wont' create all fanChild devices
@@ -68,14 +69,14 @@ metadata {
     tiles(scale: 2) {    	
 	multiAttributeTile(name: "switch", type: "lighting", width: 6, height: 4) {        	
 		tileAttribute ("fanMode", key: "PRIMARY_CONTROL") {			
-			attributeState "04", label:"HIGH", action:"off", icon:"st.Lighting.light24", backgroundColor:"#558216", nextState: "turningOff"
-			attributeState "03", label:"MED-HI", action:"off", icon:"st.Lighting.light24", backgroundColor:"#669c1c", nextState: "turningOff"
-			attributeState "02", label:"MED", action:"off", icon:"st.Lighting.light24", backgroundColor:"#79b821", nextState: "turningOff"
-			attributeState "01", label:"LOW", action:"off", icon:"st.Lighting.light24", backgroundColor:"#8ad424", nextState: "turningOff"
-			attributeState "06", label:"BREEZE", action:"off", icon:"st.Lighting.light24", backgroundColor:"#008B64", nextState: "turningOff"
-        	attributeState "00", label:"FAN OFF", action:"on", icon:"st.Lighting.light24", backgroundColor:"#ffffff", nextState: "turningOn"
-			attributeState "turningOn", action:"on", label:"TURNING ON", icon:"st.Lighting.light24", backgroundColor:"#2179b8", nextState: "turningOn"
-			attributeState "turningOff", action:"off", label:"TURNING OFF", icon:"st.Lighting.light24", backgroundColor:"#2179b8", nextState: "turningOff"
+			attributeState "04", label:"HIGH", action:"off", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan4h.png", backgroundColor:"#558216", nextState: "turningOff"
+			attributeState "03", label:"MED-HIGH", action:"off", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan3h.png", backgroundColor:"#669c1c", nextState: "turningOff"
+			attributeState "02", label:"MEDIUM", action:"off", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan2h.png", backgroundColor:"#79b821", nextState: "turningOff"
+			attributeState "01", label:"LOW", action:"off", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan1h.png", backgroundColor:"#8ad424", nextState: "turningOff"
+			attributeState "06", label:"BREEZE", action:"off", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan5h.png", backgroundColor:"#008B64", nextState: "turningOff"
+        	attributeState "00", label:"OFF", action:"on", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan00h.png", backgroundColor:"#ffffff", nextState: "turningOn"
+			attributeState "turningOn", action:"on", label:"TURNING ON", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan0h.png", backgroundColor:"#2179b8", nextState: "turningOn"
+			attributeState "turningOff", action:"off", label:"TURNING OFF", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan0h.png", backgroundColor:"#2179b8", nextState: "turningOff"
         }  
         tileAttribute ("lightBrightness", key: "SLIDER_CONTROL") {
 			attributeState "lightBrightness", action:"lightLevel"
@@ -105,14 +106,14 @@ def parse(String description) {
 		//log.debug "Parse description $description"           
         def event = zigbee.getEvent(description)
     	if (event) {
-        	//log.info "ENTER LIGHT"
+        	log.info "ENTER LIGHT"
             //Don't know what this part of the parse is for
         	if (event.name == "power") {            	
                 event.value = (event.value as Integer) / 10                
                 sendEvent(event)
         	}
         	else {
-            	log.info "Light event detected on controller: ${event}"
+            	//log.info "Light event detected on controller: ${event}"
             	def childDevice = getChildDevices()?.find {		//find light child device
         				it.device.deviceNetworkId == "${device.deviceNetworkId}-Lamp" 
                 }                
@@ -151,7 +152,7 @@ def getFanName() {
     "03":"MED-HI",
 	"04":"HIGH",
     "05":"OFF",
-    "06":"BREEZE",
+    "06":"BREEZE MODE",
     "07":"LIGHT"
 	]
 }

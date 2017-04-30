@@ -12,12 +12,14 @@
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
- *
- */ 
- def version() {return "v0.2.1.20170426" }
-//  04/26 moved icons to KOF repo and renamed for final release
-//  04/20 modified version tile 
-//  04/19 added version tile to help in troubleshooting with users
+ */
+ def version() {return "v0.2.1.20170429"}
+/*
+ 04/29 larger matching icon; used URL shortcut https://cdn.rawgit.com/ and located to /resources/images/
+ 04/26 moved icons to KOF repo and renamed for final release
+ 04/20 modified version tile 
+ 04/19 added version tile to help in troubleshooting with users
+*/
 metadata {
 	definition (name: "KOF Zigbee Fan Controller - Light Child Device", namespace: "dcoffing", author: "Stephan Hackett") {
 		capability "Actuator"
@@ -31,8 +33,8 @@ metadata {
 	tiles(scale: 2) { 		
         multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true) {
     		tileAttribute ("switch", key: "PRIMARY_CONTROL") {
-        		attributeState "off", label:"off", action: "on", icon:"https://raw.githubusercontent.com/dcoffing/KOF-CeilingFan/master/devicetypes/dcoffing/kof-zigbee-fan-controller.src/Light.png", backgroundColor: "#ffffff", nextState: "on"
-				attributeState "on", label: "on", action: "off", icon:"https://raw.githubusercontent.com/dcoffing/KOF-CeilingFan/master/devicetypes/dcoffing/kof-zigbee-fan-controller.src/Light.png", backgroundColor: "#00A0DC", nextState: "off"
+        		attributeState "off", label:"off", action: "on", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/lightH.png", backgroundColor: "#ffffff", nextState: "on"
+				attributeState "on", label: "on", action: "off", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/lightH.png", backgroundColor: "#00A0DC", nextState: "off"
         	}    	
     		tileAttribute ("device.level", key: "SLIDER_CONTROL") {
         		attributeState "level", action: "setLevel"
