@@ -13,8 +13,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */ 
- def version() {return "ver 0.2.1.20170430b"}
+ def version() {return "ver 0.2.1.20170430c"}
  /*
+    c- added version valueTile 
     b- added new state for TurningBreezeOff with new icon to match 
     a- move Stephack latest changes over in a copy/paste; change namespace  
  04/30 custom icons for each fan child speed
@@ -51,26 +52,27 @@ metadata {
 			state "on03", label: "MED-HI", action: "off", icon: getIcon()+"fan3h.png", backgroundColor: "#79b821", nextState: "turningOff"
 			state "on04", label: "HIGH", action: "off", icon: getIcon()+"fan4h.png", backgroundColor: "#79b821", nextState: "turningOff"
 			state "on06", label: "BREEZE", action: "off", icon: getIcon()+"breeze4h_teal.png", backgroundColor: "#79b821", nextState: "turningBreezeOff"
-			state "off01", label: "PUSH", action: "on", icon: getIcon()+"fan1h_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
-           	state "off02", label: "PUSH", action: "on", icon: getIcon()+"fan2h_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
-			state "off03", label: "PUSH", action: "on", icon: getIcon()+"fan3h_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
-			state "off04", label: "PUSH", action: "on", icon: getIcon()+"fan4h_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
+			state "off01", label: "PUSH", action: "on", icon: getIcon()+"fan1h_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
+           	state "off02", label: "PUSH", action: "on", icon: getIcon()+"fan2h_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
+			state "off03", label: "PUSH", action: "on", icon: getIcon()+"fan3h_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
+			state "off04", label: "PUSH", action: "on", icon: getIcon()+"fan4h_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
 			state "off06", label: "PUSH", action: "on", icon: getIcon()+"breeze4h_grey.png", backgroundColor: "#ffffff", nextState: "turningBreezeOn"
         	state "turningOn", label:"ADJUSTING", action: "on", icon: getIcon()+"fan0h_grey.png", backgroundColor: "#2179b8", nextState: "turningOn"
             state "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"fan0h.png", backgroundColor:"#2179b8", nextState: "turningOff"
             state "turningBreezeOn", label:"ADJUSTING", action: "on", icon: getIcon()+"breeze4h_blk.png", backgroundColor: "#2179b8", nextState: "turningOn"
-             state "turningBreezeOff", label:"TURNING OFF", action:"off", icon: getIcon()+"breeze4h_blk.png", backgroundColor:"#2179b8", nextState: "turningOff"
+            state "turningBreezeOff", label:"TURNING OFF", action:"off", icon: getIcon()+"breeze4h_blk.png", backgroundColor:"#2179b8", nextState: "turningOff"
 		}
-    
+ 		valueTile("version", "version", width: 4, height: 2) {
+			state "version", label:"Fan Speed Child\n" + version()
+		}   
     	main(["fanSpeed"])        
-		details(["fanSpeed"])    
+		details(["fanSpeed", "version"])    
     
 	}
 }
 
 def getIcon() {
 	return "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/"
-    //return "https://cdn.rawgit.com/stephack/KOF-Fan/master/resources/images/fanspeed0"
 }
 
 def off() {

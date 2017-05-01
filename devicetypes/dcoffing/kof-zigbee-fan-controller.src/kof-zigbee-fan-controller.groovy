@@ -20,8 +20,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {return "ver 0.2.20170430b" }
+def version() {return "ver 0.2.20170430c" }
 /*
+    c- added TurningBreezeOff attributeState to match the Breeze icon 
     b- added CeilingFanParent in version, added new grey OFF icons
     a- move Stephack latest changes;(one step child delete/create, etc) over in a copy/paste; change namespace
  04/30 Moved refresh()Configure() from child creation method to initialize, added individual icons for fan child
@@ -76,10 +77,11 @@ metadata {
 			attributeState "03", label:"MED-HI", action:"off", icon:getIcon()+"fan3h.png", backgroundColor:"#79b821", nextState: "turningOff"
 			attributeState "02", label:"MED", action:"off", icon:getIcon()+"fan2h.png", backgroundColor:"#79b821", nextState: "turningOff"
 			attributeState "01", label:"LOW", action:"off", icon:getIcon()+"fan1h.png", backgroundColor:"#79b821", nextState: "turningOff"
-			attributeState "06", label:"BREEZE", action:"off", icon:getIcon()+"Breeze.png", backgroundColor:"#008B64", nextState: "turningOff"
-        	attributeState "00", label:"FAN OFF", action:"on", icon:getIcon()+"fan00h.png", backgroundColor:"#ffffff", nextState: "turningOn"
+			attributeState "06", label:"BREEZE", action:"off", icon:getIcon()+"breeze4h_teal.png", backgroundColor:"#008B64", nextState: "turningBreezeOff"
+        	attributeState "00", label:"FAN OFF", action:"on", icon:getIcon()+"fan00h_grey.png", backgroundColor:"#ffffff", nextState: "turningOn"
 			attributeState "turningOn", action:"on", label:"TURNING ON", icon:getIcon()+"fan0h.png", backgroundColor:"#2179b8", nextState: "turningOn"
 			attributeState "turningOff", action:"off", label:"TURNING OFF", icon:getIcon()+"fan0h_grey.png", backgroundColor:"#2179b8", nextState: "turningOff"
+            attributeState "turningBreezeOff", action:"off", label:"TURNING OFF", icon:getIcon()+"breeze4h_blk.png", backgroundColor:"#2179b8", nextState: "turningOff"
         }  
         tileAttribute ("lightBrightness", key: "SLIDER_CONTROL") {
 			attributeState "lightBrightness", action:"lightLevel"
