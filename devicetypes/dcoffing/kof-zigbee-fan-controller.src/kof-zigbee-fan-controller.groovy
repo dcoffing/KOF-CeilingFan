@@ -20,11 +20,12 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {return "v0.2.20170430a" }
+def version() {return "ver 0.2.20170430b" }
 /*
-    a- move Stephack latest changes over in a copy/paste; change namespace
+    b- added CeilingFanParent in version, added new grey OFF icons
+    a- move Stephack latest changes;(one step child delete/create, etc) over in a copy/paste; change namespace
  04/30 Moved refresh()Configure() from child creation method to initialize, added individual icons for fan child
- 04/29 new icons with fanspeed bar
+ 04/29 new icons with fanspeed bar indication
 	e- added changes from Stephan to fix createChild error
 	d- go back to orginal code on line 182
 	c- createFanChild code added line 182 ChildDevice this part is the BUG that wont' create all fanChild devices
@@ -52,11 +53,11 @@ metadata {
         command "lightLevel"
         command "setFanSpeed"       
         
-        attribute "fanMode", "string" //stores fanspeed
-        attribute "lightBrightness", "number"    //stores brightness level
-        attribute "lastFanMode", "string"	//used to restore previous fanmode
-        attribute "LchildVer", "string"		//stores light child version
-        attribute "FchildVer", "string"		//stores fan child version
+        attribute "fanMode", "string" 			//stores fanspeed
+        attribute "lightBrightness", "number"	//stores brightness level
+        attribute "lastFanMode", "string"		//used to restore previous fanmode
+        attribute "LchildVer", "string"			//stores light child version
+        attribute "FchildVer", "string"			//stores fan child version
       
 	fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HDC52EastwindFan"
     }
@@ -78,7 +79,7 @@ metadata {
 			attributeState "06", label:"BREEZE", action:"off", icon:getIcon()+"Breeze.png", backgroundColor:"#008B64", nextState: "turningOff"
         	attributeState "00", label:"FAN OFF", action:"on", icon:getIcon()+"fan00h.png", backgroundColor:"#ffffff", nextState: "turningOn"
 			attributeState "turningOn", action:"on", label:"TURNING ON", icon:getIcon()+"fan0h.png", backgroundColor:"#2179b8", nextState: "turningOn"
-			attributeState "turningOff", action:"off", label:"TURNING OFF", icon:getIcon()+"fan0h.png", backgroundColor:"#2179b8", nextState: "turningOff"
+			attributeState "turningOff", action:"off", label:"TURNING OFF", icon:getIcon()+"fan0h_grey.png", backgroundColor:"#2179b8", nextState: "turningOff"
         }  
         tileAttribute ("lightBrightness", key: "SLIDER_CONTROL") {
 			attributeState "lightBrightness", action:"lightLevel"
@@ -88,7 +89,7 @@ metadata {
 		state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
 	}  
     valueTile("version", "version", width:3, height:1) {
-    	state "version", label:"Parent\n" + version()
+    	state "version", label:"Ceiling Fan Parent\n" + version()
     }
     valueTile("FchildVer", "FchildVer", width:3, height:1) {
     	state "FchildVer", label: "Fan Child\n"+'${currentValue}'
