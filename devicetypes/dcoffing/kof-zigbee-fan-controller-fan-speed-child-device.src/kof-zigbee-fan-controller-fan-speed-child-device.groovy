@@ -58,7 +58,7 @@ metadata {
 			state "off06", label: "PUSH", action: "on", icon: getIcon()+"breeze4h_grey.png", backgroundColor: "#ffffff", nextState: "turningBreezeOn"
         	state "turningOn", label:"ADJUSTING", action: "on", icon: getIcon()+"fan0h_grey.png", backgroundColor: "#2179b8", nextState: "turningOn"
             state "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"fan0h.png", backgroundColor:"#2179b8", nextState: "turningOff"
-            state "turningBreezeOn", label:"ADJUSTING", action: "on", icon: getIcon()+"breeze4h_grey.png", backgroundColor: "#2179b8", nextState: "turningOn"
+            state "turningBreezeOn", label:"ADJUSTING", action: "on", icon: getIcon()+"breeze4h_blk.png", backgroundColor: "#2179b8", nextState: "turningOn"
              state "turningBreezeOff", label:"TURNING OFF", action:"off", icon: getIcon()+"breeze4h_blk.png", backgroundColor:"#2179b8", nextState: "turningOff"
 		}
     
