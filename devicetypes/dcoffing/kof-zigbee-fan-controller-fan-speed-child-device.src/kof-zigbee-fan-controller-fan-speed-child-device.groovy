@@ -13,9 +13,11 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */ 
- def version() {return "ver 0.2.1.20170430c"}
+ def version() {return "ver 0.2.1.20170501x"}
  /*
-    c- added version valueTile 
+ 05/01 fixed flat bug by removing space?
+    c- iOS fan child device view modifications= added decoration:"flat", added version tile
+	** STbug? can't change name using gear in fan child like you can in light child, fan child device view not accessible in android app
     b- added new state for TurningBreezeOff with new icon to match 
     a- move Stephack latest changes over in a copy/paste; change namespace  
  04/30 custom icons for each fan child speed
@@ -44,7 +46,7 @@ metadata {
         	//state "turningOn", label:"ADJUSTING", action: "on", icon: getIcon(), backgroundColor: "#2179b8", nextState: "turningOn"
            // state "turningOff", label:"TURNING OFF", action:"off", icon: getIcon(), backgroundColor:"#2179b8", nextState: "turningOff"
 		//}
-        standardTile("fanSpeed", "fanSpeed", decoration: "flat", width: 2, height: 2) {
+        standardTile("fanSpeed", "fanSpeed", decoration: "flat", width: 2, height: 2) {  
      		state "off", label:"off", action: "on", icon: getIcon()+"fan00h_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
 			//state "default", label: "ADJUSTING", action: "on", icon: "https://cdn.rawgit.com/stephack/KOF-Fan/master/resources/images/fanspeed04.png", backgroundColor: "#2179b8"
             state "on01", label: "LOW", action: "off", icon: getIcon()+"fan1h.png", backgroundColor: "#79b821", nextState: "turningOff"

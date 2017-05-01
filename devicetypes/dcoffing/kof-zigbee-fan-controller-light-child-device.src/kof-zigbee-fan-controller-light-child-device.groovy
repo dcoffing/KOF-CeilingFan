@@ -13,13 +13,15 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.1.20170430a"}
+ def version() {return "ver 0.2.1.20170501"}
 /*
+ 05/01 added version tile for iOS child device view, light icon ON with blue rays
 04/30a move Stephack latest changes over in a copy/paste; change namespace
  04/29 larger matching icon; used URL shortcut https://cdn.rawgit.com/ and located to /resources/images/
  04/26 moved icons to KOF repo and renamed for final release
  04/20 modified version tile 
  04/19 added version tile to help in troubleshooting with users
+ 2017 Year
 */
 metadata {
 	definition (name: "KOF Zigbee Fan Controller - Light Child Device", namespace: "dcoffing", author: "Stephan Hackett") {
@@ -40,17 +42,18 @@ metadata {
         	}    	
     		tileAttribute ("device.level", key: "SLIDER_CONTROL") {
         		attributeState "level", action: "setLevel"
-    		}
-            
-    	}
-                
+    		}  
+		}	
+ 		valueTile("version", "version", width: 6, height: 2) {
+          	state "version", label:"Light Child\n" + version()
+		}                
     	main(["switch"])        
-		details(["switch"])    
+		details(["switch", "version"])    
     }	
 }
 
 def getIcon() {
-	return "https://raw.githubusercontent.com/dcoffing/KOF-CeilingFan/master/resources/images/"
+	return "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/"
 }
 
 def on() {
