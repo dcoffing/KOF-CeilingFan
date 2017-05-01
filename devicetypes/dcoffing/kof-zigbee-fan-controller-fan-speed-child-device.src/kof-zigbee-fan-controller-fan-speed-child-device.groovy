@@ -38,13 +38,13 @@ metadata {
    }
    
    tiles(scale: 2) {
-		//standardTile("switch", "switch", width: 2, height: 2) {
+		//standardTile("switch", "switch", decoration: "flat", width: 2, height: 2) {
      		//state "off", label:"off", action: "on", icon: getIcon(), backgroundColor: "#ffffff", nextState: "turningOn"
 			//state "on", label: "on", action: "off", icon: getIcon(), backgroundColor: "#79b821", nextState: "turningOff"
         	//state "turningOn", label:"ADJUSTING", action: "on", icon: getIcon(), backgroundColor: "#2179b8", nextState: "turningOn"
            // state "turningOff", label:"TURNING OFF", action:"off", icon: getIcon(), backgroundColor:"#2179b8", nextState: "turningOff"
 		//}
-        standardTile("fanSpeed", "fanSpeed", width: 2, height: 2) {
+        standardTile("fanSpeed", "fanSpeed", decoration: "flat", width: 2, height: 2) {
      		state "off", label:"off", action: "on", icon: getIcon()+"fan00h_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
 			//state "default", label: "ADJUSTING", action: "on", icon: "https://cdn.rawgit.com/stephack/KOF-Fan/master/resources/images/fanspeed04.png", backgroundColor: "#2179b8"
             state "on01", label: "LOW", action: "off", icon: getIcon()+"fan1h.png", backgroundColor: "#79b821", nextState: "turningOff"
