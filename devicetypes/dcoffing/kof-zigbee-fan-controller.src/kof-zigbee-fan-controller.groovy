@@ -20,8 +20,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {return "ver 0.2.20170430c" }
+def version() {return "ver 0.2.20170501" }
 /*
+ 05/01 fixed bug when recreated child names didn't use the new name but the original name; def createFanChild() 
     c- added TurningBreezeOff attributeState to match the Breeze icon 
     b- added CeilingFanParent in version, added new grey OFF icons
     a- move Stephack latest changes;(one step child delete/create, etc) over in a copy/paste; change namespace
@@ -184,8 +185,9 @@ def installed() {
 	initialize()
 }
 
-def updated() {	
-	initialize()    
+def updated() {
+	if(state.oldLabel != device.label) {updateChildLabel()}
+		initialize()    
 }
 
 def initialize() {	
@@ -201,7 +203,22 @@ def initialize() {
     	}    	
 }
 
+def updateChildLabel() {
+	log.info "UPDATE LABEL"
+	for(i in 1..6) {   		
+    	def childDevice = getChildDevices()?.find {
+        	it.device.deviceNetworkId == "${device.deviceNetworkId}-0${i}"
+    	}                 
+        if (childDevice && i != 5) {childDevice.label = "${device.displayName} ${getFanName()["0${i}"]}"} // rename with new label
+    }
+    
+    def childDeviceL = getChildDevices()?.find {
+        	it.device.deviceNetworkId == "${device.deviceNetworkId}-Lamp"
+    }
+    if (childDeviceL) {childDeviceL.label = "${device.displayName} Lamp"}    // rename with new label
+}
 def createFanChild() {
+	state.oldLabel = device.label    //save the label for reference if it ever changes
 	for(i in 1..6) {   		
     	def childDevice = getChildDevices()?.find {
         	it.device.deviceNetworkId == "${device.deviceNetworkId}-0${i}"
@@ -217,6 +234,9 @@ def createFanChild() {
 		}
 	}
 }
+
+
+
 
 def createLightChild() {
 	def childDevice = getChildDevices()?.find {
