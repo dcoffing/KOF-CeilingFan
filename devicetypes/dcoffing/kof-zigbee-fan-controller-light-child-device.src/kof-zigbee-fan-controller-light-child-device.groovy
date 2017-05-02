@@ -13,8 +13,10 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.1.20170501b"}
+ def version() {return "ver 0.2.1.20170502x"}
 /*
+     x- testing to verify testing branch is working with IDE
+ 05/02
     b- changed light TurningON/OFF icon to light_blue 
     a- changed light ON icon from light_blue to lightH for Stephan  
  05/01 added version tile for iOS child device view, light icon ON with blue rays
