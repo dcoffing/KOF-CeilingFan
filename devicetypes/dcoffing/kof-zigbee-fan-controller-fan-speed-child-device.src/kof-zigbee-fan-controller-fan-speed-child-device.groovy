@@ -17,8 +17,9 @@ KNOWN ISSUES
  - fan and light child device views are only available in iOS mobile app
  - Fan child device view can't change name when using gear icon like you can in Light child device
  */ 
- def version() {return "ver 0.2.1.20170502"}
+ def version() {return "ver 0.2.1.20170502x"}
  /*
+    x- testing to verify testing branch is working with IDE
  05/02 added fanXX_off2 icons to show larger contrast between LED's 
     a- changed fan OFF icon to be fanXXh_grey.png with green LED
     x- was for testing to verify version uploads
