@@ -20,8 +20,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {return "ver 0.2.20170501" }
+def version() {return "ver 0.2.20170501x" }
 /*
+    x- test to see if testing branch is connected to IDE
  05/01 fixed bug when recreated child names didn't use the new name but the original name; def createFanChild() 
     c- added TurningBreezeOff attributeState to match the Breeze icon 
     b- added CeilingFanParent in version, added new grey OFF icons
