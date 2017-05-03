@@ -13,8 +13,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.1.20170502"}
+ def version() {return "ver 0.2.1.20170503"}
 /*
+ 05/03 tweak to icons for ON to match the lighter grey LED look
  05/02 replaced blue rays on icon to be grey when TurningOnOff
     b- changed light TurningON/OFF icon to light_blue 
     a- changed light ON icon from light_blue to lightH for Stephan  
@@ -40,8 +41,8 @@ metadata {
     		tileAttribute ("switch", key: "PRIMARY_CONTROL") {
         		attributeState "off", label:"off", action: "on", icon: getIcon()+"light_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
 				attributeState "on", label: "on", action: "off", icon: getIcon()+"lightH.png", backgroundColor: "#00A0DC", nextState: "turningOff"
-                attributeState "turningOn", label:"TURNING ON", action: "on", icon: getIcon()+"lighti.png", backgroundColor: "#2179b8", nextState: "turningOn"
-            	attributeState "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"lighti.png", backgroundColor:"#2179b8", nextState: "turningOff"
+                attributeState "turningOn", label:"TURNING ON", action: "on", icon: getIcon()+"lightI.png", backgroundColor: "#2179b8", nextState: "turningOn"
+            	attributeState "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"lightI.png", backgroundColor:"#2179b8", nextState: "turningOff"
         	}    	
     		tileAttribute ("device.level", key: "SLIDER_CONTROL") {
         		attributeState "level", action: "setLevel"
