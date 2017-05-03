@@ -15,7 +15,7 @@
  */
  def version() {return "ver 0.2.1.20170502"}
 /*
-05/02 new icon to replace blue in TurningOnOff mode
+ 05/02 replaced blue rays on icon to be grey when TurningOnOff
     b- changed light TurningON/OFF icon to light_blue 
     a- changed light ON icon from light_blue to lightH for Stephan  
  05/01 added version tile for iOS child device view, light icon ON with blue rays
