@@ -13,8 +13,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.1.20170501bx"}
+ def version() {return "ver 0.2.1.20170502"}
 /*
+05/02 new icon to replace blue in TurningOnOff mode
     b- changed light TurningON/OFF icon to light_blue 
     a- changed light ON icon from light_blue to lightH for Stephan  
  05/01 added version tile for iOS child device view, light icon ON with blue rays
@@ -39,8 +40,8 @@ metadata {
     		tileAttribute ("switch", key: "PRIMARY_CONTROL") {
         		attributeState "off", label:"off", action: "on", icon: getIcon()+"light_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
 				attributeState "on", label: "on", action: "off", icon: getIcon()+"lightH.png", backgroundColor: "#00A0DC", nextState: "turningOff"
-                attributeState "turningOn", label:"TURNING ON", action: "on", icon: getIcon()+"light_blue.png", backgroundColor: "#2179b8", nextState: "turningOn"
-            	attributeState "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"light_blue.png", backgroundColor:"#2179b8", nextState: "turningOff"
+                attributeState "turningOn", label:"TURNING ON", action: "on", icon: getIcon()+"lighti.png", backgroundColor: "#2179b8", nextState: "turningOn"
+            	attributeState "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"lighti.png", backgroundColor:"#2179b8", nextState: "turningOff"
         	}    	
     		tileAttribute ("device.level", key: "SLIDER_CONTROL") {
         		attributeState "level", action: "setLevel"
