@@ -1,26 +1,25 @@
 
-//   Zigbee 4 Speed Ceiling Fan Thermostat Control
+//   Zigbee 4 Speed Ceiling Fan Thermostst Control
    
-  def version() {return "v2.1b.20170427b" }    
+  def version() {return "v2.1b.20170504" }    
 /*  Change Log
-  05/04  corrected User Guide title to 4 Speed
-      b -fixed parent name when creating new automation, modified description, user manual    
-  04-27  starting modifications for zigbee
-  04-11 Added 10.0 selection for Fan Differential Temp to mimic single speed control
-  Year 2017
-  2016-10-19 Ver2 Parent / Child app to allow for multiple use cases with a single install - @ericvitale
+ 2017-05-04 fixed user manual title to 4Speed, icons moved to KOF repo
+  bugfix, even though published and I load this from MyApps it still is using the older version code from zwave parent/child
+ 2017-04-27  starting modifications for zigbee
+ 2017-04-11 Added 10.0 selection for Fan Differential Temp to mimic single speed control
+ 2016-10-19 Ver2 Parent / Child app to allow for multiple use cases with a single install - @ericvitale
   
 */
 definition(
     name: "4 Speed Ceiling Fan Thermostat - Zigbee",
     namespace: "dcoffing",
     author: "Dale Coffing",
-    description: "Thermostat control for Zigbee 4 Speed Ceiling Fan device MR101Z staging Low, Medium, Medium-High, High speeds with any temperature sensor.\n"+ "Version "+ version(),
+    description: "Thermostat control for Zigbee 4 Speed Ceiling Fan device (Home Decorators Ceiling Fan/Light Controller MR101Z) using Low, Medium, Medium-High, High speeds with any temperature sensor.",
     category: "My Apps",
     singleInstance: true,
-	iconUrl: "https://raw.githubusercontent.com/dcoffing/SmartThingsPublic/master/smartapps/dcoffing/3-speed-ceiling-fan-thermostat.src/3scft125x125.png", 
-   	iconX2Url: "https://raw.githubusercontent.com/dcoffing/SmartThingsPublic/master/smartapps/dcoffing/3-speed-ceiling-fan-thermostat.src/3scft250x250.png",
-	iconX3Url: "https://raw.githubusercontent.com/dcoffing/SmartThingsPublic/master/smartapps/dcoffing/3-speed-ceiling-fan-thermostat.src/3scft250x250.png",
+	iconUrl: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/3scft125x125.png", 
+   	iconX2Url: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/3scft250x250.png",
+	iconX3Url: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/3scft250x250.png",
 )
 
 preferences {
@@ -54,7 +53,7 @@ def childStartPage() {
 			input "tempSensor", "capability.temperatureMeasurement", multiple:false, title: "Temperature Sensor", required: true, submitOnChange: true  
 		}
         if (tempSensor) {  //protects from a null error
-    		section("Enter the desired room temperature setpoint...\n" + "NOTE: ${tempSensor.displayName} room temp is currently ${tempSensor.currentTemperature}°"){
+    		section("Enter the desired room temperature setpoint...\n" + "NOTE: ${tempSensor.displayName} room temp is ${tempSensor.currentTemperature}° currently"){
         		input "setpoint", "decimal", title: "Room Setpoint Temp", defaultValue: tempSensor.currentTemperature, required: true
     		}
         }
@@ -62,7 +61,7 @@ def childStartPage() {
         	section("Enter the desired room temperature setpoint..."){
         		input "setpoint", "decimal", title: "Room Setpoint Temp", required: true
     		}       
-        section("Select the Zigbee ceiling fan device (NOT Light or Speeds)..."){
+        section("Select the Parent ceiling fan/light control hardware... (NOT the child Light or Fan Speeds)"){
         // fanDimmer
 			input "fanSwitch", "capability.switch", multiple:false, title: "Zigbee Fan Control device", required: true
 		}
@@ -70,7 +69,7 @@ def childStartPage() {
 			href (name: "optionsPage", 
         	title: "Configure Optional settings", 
         	description: none,
-        	image: "https://raw.githubusercontent.com/dcoffing/SmartThingsPublic/master/smartapps/dcoffing/evap-cooler-thermostat.src/settings250x250.png",
+        	image: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/settings250x250.png",
         	required: false,
         	page: "optionsPage"
         	)
@@ -85,7 +84,7 @@ def childStartPage() {
 			href (name: "aboutPage", 
 			title: "4 Speed Ceiling Fan Thermostat \n"+ version() +" \n"+"Copyright © 2017 Dale Coffing", 
 			description: "Tap to get user's guide.",
-			image: "https://raw.githubusercontent.com/dcoffing/SmartThingsPublic/master/smartapps/dcoffing/3-speed-ceiling-fan-thermostat.src/3scft125x125.png",
+			image: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/3scft125x125.png",
 			required: false,
 			page: "aboutPage"
 			)
@@ -126,7 +125,7 @@ def aboutPage() {
 /* I might be able to take advantage of this next line of code to selectively open the zwave OR the zigbee parent based on hardware input selected?
 private def appName() { return "${parent ? "3 Speed Fan Automation" : "3 Speed Ceiling Fan Thermostat"}" }
 */
-private def appName() { return "${parent ? "3 Speed Fan Automation" : "4 Speed Ceiling Fan Thermostat - Zigbee"}" }
+private def appName() { return "${parent ? "4 Speed Fan Automation" : "4 Speed Ceiling Fan Thermostat - Zigbee"}" }
 
 def installed() {
 	log.debug "def INSTALLED with settings: ${settings}"
@@ -280,7 +279,8 @@ private hasBeenRecentMotion()
 
 private def textHelp() {
 	def text =
-		"This smartapp provides automatic control of Low, Med, Med-Hi, High speeds of a"+
+	
+    	"This smartapp provides automatic control of Low, Med, Med-Hi, High speeds of a"+
 		" zigbee ceiling fan using any temperature sensor based on its' temperature setpoint"+
         " turning on each speed automatically in 1 degree differential increments."+
         " For example, if the desired room temperature setpoint is 72, the low speed"+
@@ -296,4 +296,5 @@ private def textHelp() {
         "This app uses the 'KOF Zigbee Fan Controller Custom Device Handler' written for hardware"+
         " from Hampton Bay Wink Ceiling Fan MR101Z receiver in the Gardinier 52' Ceiling Fan or"+
         " Universal Ceiling Fan Premier Remote from Home Depot."
-	}
+    
+    }
