@@ -241,12 +241,12 @@ def createFanChild() {
 
 def createLightChild() {
 	def childDevice = getChildDevices()?.find {
-        	it.device.deviceNetworkId == "${device.deviceNetworkId}-Lamp"
+        	it.device.deviceNetworkId == "${device.deviceNetworkId}-Light"
     }
     if (!childDevice) {  
-		childDevice = addChildDevice("KOF Zigbee Fan Controller - Light Child Device", "${device.deviceNetworkId}-Lamp", null,[completedSetup: true,
-        label: "${device.displayName} Lamp", isComponent: false, componentName: "fanLight",
-        componentLabel: "LAMP", "data":["parent version":version()]])       
+		childDevice = addChildDevice("KOF Zigbee Fan Controller - Light Child Device", "${device.deviceNetworkId}-Light", null,[completedSetup: true,
+        label: "${device.displayName} Light", isComponent: false, componentName: "fanLight",
+        componentLabel: "LIGHT", "data":["parent version":version()]])       
         log.info "Creating child light ${childDevice}" 
     }
 	else {
@@ -309,17 +309,17 @@ def off() {
 }
 
 def lightOn()  {
-	log.info "Turning Lamp On"
+	log.info "Turning Light On"
 	zigbee.on()
 }
 
 def lightOff() {
-	log.info "Turning Lamp Off"
+	log.info "Turning Light Off"
 	zigbee.off()
 }
 
 def lightLevel(val) {
-	log.info "Adjusting Lamp Brightness"    
+	log.info "Adjusting Light Brightness"    
     zigbee.setLevel(val) + (val?.toInteger() > 0 ? zigbee.on() : []) 
 }
 
@@ -369,7 +369,7 @@ def getChildVer() {
 	if(FchildDevice){sendEvent(name:"FchildVer", value: FchildDevice.version())}	//find a fan device, get version info and store in FchildVer
     
     def LchildDevice = getChildDevices()?.find {
-        	it.device.deviceNetworkId == "${device.deviceNetworkId}-Lamp"
+        	it.device.deviceNetworkId == "${device.deviceNetworkId}-Light"
     	}                 
 	if(LchildDevice) {sendEvent(name:"LchildVer", value: LchildDevice.version())}	//find the light device, get version info and store in LchildVer    
 }
