@@ -13,8 +13,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.1.20170503"}
+ def version() {return "ver 0.2.1.20170503x"}
 /*
+    x -verifying commit works to testing branch
  05/03 tweak to icons for ON to match the lighter grey LED look
  05/02 replaced blue rays on icon to be grey when TurningOnOff
     b- changed light TurningON/OFF icon to light_blue 
