@@ -1,9 +1,9 @@
 
-//   Zigbee 4 Speed Ceiling Fan Thermostst Control
+//   Zigbee 4 Speed Ceiling Fan Thermostat Control
    
   def version() {return "v2.1b.20170504" }    
 /*  Change Log
- 2017-05-04 fixed user manual title to 4Speed, icons moved to KOF repo
+ 2017-05-04 fixed user manual title to 4Speed, icons moved to KOF repo, user manual content revised
   bugfix, even though published and I load this from MyApps it still is using the older version code from zwave parent/child
  2017-04-27  starting modifications for zigbee
  2017-04-11 Added 10.0 selection for Fan Differential Temp to mimic single speed control
@@ -61,7 +61,7 @@ def childStartPage() {
         	section("Enter the desired room temperature setpoint..."){
         		input "setpoint", "decimal", title: "Room Setpoint Temp", required: true
     		}       
-        section("Select the Parent ceiling fan/light control hardware... (NOT the child Light or Fan Speeds)"){
+        section("Select the Parent ceiling fan/light control hardware... (NOT the Light or Fan Speed Child )"){
         // fanDimmer
 			input "fanSwitch", "capability.switch", multiple:false, title: "Zigbee Fan Control device", required: true
 		}
@@ -280,12 +280,12 @@ private hasBeenRecentMotion()
 private def textHelp() {
 	def text =
 	
-    	"This smartapp provides automatic control of Low, Med, Med-Hi, High speeds of a"+
+    	"This smartapp provides automatic control of 4 speeds on a"+
 		" zigbee ceiling fan using any temperature sensor based on its' temperature setpoint"+
         " turning on each speed automatically in 1 degree differential increments."+
-        " For example, if the desired room temperature setpoint is 72, the low speed"+
-        " turns on first at 73, the medium speed at 74, the med-hi speed at 75, the high"+
-        " speed at 76. And vice versa on decreasing temperature until at 72 the ceiling"+
+        " For example, if the desired room temperature setpoint is 72, speed 1 (low)"+
+        " turns on at 73, then speed 2 (medium) at 74, then speed 3 (med-high) at 75, then"+
+        " speed 4 (high) at 76. And vice versa on decreasing temperature until at 72 the ceiling"+
         " fan turns off. The differential is adjustable from 0.5 to 2.0 in half degree increments. \n\n" +
         "A notable feature is when low speed is initially requested from"+
         " the off condition, high speed is turned on briefly to overcome the startup load"+
@@ -293,8 +293,8 @@ private def textHelp() {
         " manufacturers use by always starting in high speed. \n\n"+
       	"A motion option turns off automatic mode when no motion is detected. A thermostat"+
         " mode option will disable the smartapp and pass control to manual control.\n\n"+
-        "This app uses the 'KOF Zigbee Fan Controller Custom Device Handler' written for hardware"+
-        " from Hampton Bay Wink Ceiling Fan MR101Z receiver in the Gardinier 52' Ceiling Fan or"+
+        "This app written specifically for the 'KOF Zigbee Fan Controller Custom Device Handler' used"+
+        " in the Hampton Bay Wink Ceiling Fan MR101Z receiver in the Gardinier 52' Ceiling Fan or"+
         " Universal Ceiling Fan Premier Remote from Home Depot."
     
     }
