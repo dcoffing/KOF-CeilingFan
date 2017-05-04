@@ -3,9 +3,11 @@
    
   def version() {return "v2.1b.20170427b" }    
 /*  Change Log
-      b - fixed parent name when creating new automation, modified description, user manual    
+  05/04  corrected User Guide title to 4 Speed
+      b -fixed parent name when creating new automation, modified description, user manual    
   04-27  starting modifications for zigbee
-  2017-04-11 Added 10.0 selection for Fan Differential Temp to mimic single speed control
+  04-11 Added 10.0 selection for Fan Differential Temp to mimic single speed control
+  Year 2017
   2016-10-19 Ver2 Parent / Child app to allow for multiple use cases with a single install - @ericvitale
   
 */
@@ -115,7 +117,7 @@ def optionsPage() {
 
 def aboutPage() {
 	dynamicPage(name: "aboutPage", title: none, install: true, uninstall: true) {
-     	section("User's Guide; 3 Speed Ceiling Fan Thermostat") {
+     	section("User's Guide; 4 Speed Ceiling Fan Thermostat - Zigbee") {
         	paragraph textHelp()
  		}
 	}
