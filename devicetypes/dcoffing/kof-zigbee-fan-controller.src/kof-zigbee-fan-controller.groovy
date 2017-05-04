@@ -20,8 +20,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {return "ver 0.2.20170501" }
+def version() {return "ver 0.2.20170503" }
 /*
+ 05/03 renamed LAMP to LIGHT in all instances to conform to ST standards
  05/01 fixed bug when recreated child names didn't use the new name but the original name; def createFanChild() 
     c- added TurningBreezeOff attributeState to match the Breeze icon 
     b- added CeilingFanParent in version, added new grey OFF icons
@@ -122,7 +123,7 @@ def parse(String description) {
         	else {
             	log.info "Light event detected on controller: ${event}"
             	def childDevice = getChildDevices()?.find {		//find light child device
-        				it.device.deviceNetworkId == "${device.deviceNetworkId}-Lamp" 
+        				it.device.deviceNetworkId == "${device.deviceNetworkId}-Light" 
                 }                
                 childDevice.sendEvent(event)	//send light events to light child device and update lightBrightness attribute
                 if(event.value != "on" && event.value != "off") sendEvent(name: "lightBrightness", value: event.value)
@@ -164,7 +165,7 @@ def getFanName() {
 	"04":"HIGH",
     "05":"OFF",
     "06":"BREEZE MODE",
-    "07":"LAMP"
+    "07":"LIGHT"
 	]
 }
 
@@ -177,7 +178,7 @@ def getFanNameAbbr() {
 	"04":"HI",
     "05":"OFF",
     "06":"BREEZE",
-    "07":"LAMP"
+    "07":"LIGHT"
 	]
 }
 
@@ -213,9 +214,9 @@ def updateChildLabel() {
     }
     
     def childDeviceL = getChildDevices()?.find {
-        	it.device.deviceNetworkId == "${device.deviceNetworkId}-Lamp"
+        	it.device.deviceNetworkId == "${device.deviceNetworkId}-Light"
     }
-    if (childDeviceL) {childDeviceL.label = "${device.displayName} Lamp"}    // rename with new label
+    if (childDeviceL) {childDeviceL.label = "${device.displayName} Light"}    // rename with new label
 }
 def createFanChild() {
 	state.oldLabel = device.label    //save the label for reference if it ever changes
