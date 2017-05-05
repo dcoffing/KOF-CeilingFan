@@ -20,8 +20,11 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {return "ver 0.2.20170504a" }
-/*  a- evaluating new Speed 1,2,3,4 for ease of voice and look, it matches the fan speed bar icons instead of Lo, Med, Hi
+def version() {return "ver 0.2.20170505" }
+/*  
+ 05/05 modified Refresh text to Delete&Recreate
+	b- test new label Speed 1 (LOW) technique
+    a- evaluating new Speed 1,2,3,4 for ease of voice and look, it matches the fan speed bar icons instead of Lo, Med, Hi
  05/04 Modified labels lowercase,Comfort Breeze™ , getFanName() to be longer names vs abbr
  05/03 renamed LAMP to LIGHT in all instances to conform to ST standards
  05/01 fixed bug when recreated child names didn't use the new name but the original name; def createFanChild() 
@@ -69,9 +72,9 @@ metadata {
     preferences {
     	page(name: "childToRebuild", title: "This does not display on DTH preference page")
             section("section") {              
-            	input(name: "refreshChildren", type: "bool", title: "Refresh all child devices? Use after modifying the parent device name " +
-                "above to give all the child devices the new name.\n\nPLEASE NOTE:\nDevices must be removed from any smartApps BEFORE attempting to " +
-                "refresh as this process deletes and recreates them all. If 'false'  is displayed below one of the devices is still associated with a smartapp.")                      
+            	input(name: "refreshChildren", type: "bool", title: "Delete & Recreate all child devices?\n\nTypically used after modifying the parent device name " +
+                "above to give all child devices the new name.\n\nPLEASE NOTE: Child Devices must be removed from any smartApps BEFORE attempting this " +
+                "process or 'An unexpected error' occurs attempting to delete the child's.")                      
        }
     }
     
@@ -162,10 +165,10 @@ def getIcon() {
 def getFanName() { 
 	[  
     "00":"Off",
-    "01":"Low Speed 1 ",
-    "02":"Medium Speed 2",
-    "03":"Med-High Speed 3",
-	"04":"High Speed 4",
+    "01":"Speed 1 (LOW) ",
+    "02":"Speed 2 (MED)",
+    "03":"Speed 3 (MED-HI)",
+	"04":"Speed 4 (HIGH)",
     "05":"Off",
     "06":"Comfort Breeze™",
     "07":"Light"
