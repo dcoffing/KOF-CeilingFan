@@ -13,9 +13,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.1.20170503x"}
+ def version() {return "ver 0.2.1.20170504"}
 /*
-    x -verifying commit works to testing branch
+ 05/04 clean up display in iOS child version, smaller text and center version
  05/03 tweak to icons for ON to match the lighter grey LED look
  05/02 replaced blue rays on icon to be grey when TurningOnOff
     b- changed light TurningON/OFF icon to light_blue 
@@ -50,7 +50,7 @@ metadata {
     		}  
 		}	
  		valueTile("version", "version", width: 6, height: 2) {
-          	state "version", label:"Light Child\n" + version()
+          	state "version", label:"\n Light Child \n" + version()+"\n"
 		}                
     	main(["switch"])        
 		details(["switch", "version"])    

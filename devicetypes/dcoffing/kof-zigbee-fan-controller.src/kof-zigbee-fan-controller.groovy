@@ -20,8 +20,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {return "ver 0.2.20170503" }
-/*
+def version() {return "ver 0.2.20170504a" }
+/*  a- evaluating new Speed 1,2,3,4 for ease of voice and look, it matches the fan speed bar icons instead of Lo, Med, Hi
+ 05/04 Modified labels lowercase,Comfort Breeze™ , getFanName() to be longer names vs abbr
  05/03 renamed LAMP to LIGHT in all instances to conform to ST standards
  05/01 fixed bug when recreated child names didn't use the new name but the original name; def createFanChild() 
     c- added TurningBreezeOff attributeState to match the Breeze icon 
@@ -68,7 +69,9 @@ metadata {
     preferences {
     	page(name: "childToRebuild", title: "This does not display on DTH preference page")
             section("section") {              
-            	input(name: "refreshChildren", type: "bool", title: "Refresh all child devices?\n\nPLEASE NOTE:\nDevices must be removed from any smartApps BEFORE attempting to refresh as this process deletes and recreates them all.")                      
+            	input(name: "refreshChildren", type: "bool", title: "Refresh all child devices? Use after modifying the parent device name " +
+                "above to give all the child devices the new name.\n\nPLEASE NOTE:\nDevices must be removed from any smartApps BEFORE attempting to " +
+                "refresh as this process deletes and recreates them all. If 'false'  is displayed below one of the devices is still associated with a smartapp.")                      
        }
     }
     
@@ -158,27 +161,27 @@ def getIcon() {
 
 def getFanName() { 
 	[  
-    "00":"OFF",
-    "01":"LOW",
-    "02":"MEDIUM",
-    "03":"MED-HI",
-	"04":"HIGH",
-    "05":"OFF",
-    "06":"BREEZE MODE",
-    "07":"LIGHT"
+    "00":"Off",
+    "01":"Low Speed 1 ",
+    "02":"Medium Speed 2",
+    "03":"Med-High Speed 3",
+	"04":"High Speed 4",
+    "05":"Off",
+    "06":"Comfort Breeze™",
+    "07":"Light"
 	]
 }
 
 def getFanNameAbbr() { 
 	[  
-    "00":"OFF",
-    "01":"LOW",
-    "02":"MED",
-    "03":"MED-HI",
-	"04":"HI",
-    "05":"OFF",
-    "06":"BREEZE",
-    "07":"LIGHT"
+    "00":"Off",
+    "01":"Low",
+    "02":"Med",
+    "03":"Med-Hi",
+	"04":"High",
+    "05":"Off",
+    "06":"Breeze™",
+    "07":"Light"
 	]
 }
 
@@ -216,7 +219,7 @@ def updateChildLabel() {
     def childDeviceL = getChildDevices()?.find {
         	it.device.deviceNetworkId == "${device.deviceNetworkId}-Light"
     }
-    if (childDeviceL) {childDeviceL.label = "${device.displayName} Light"}    // rename with new label
+    if (childDeviceL) {childDeviceL.label = "${device.displayName} Breeze"}    // rename with new label
 }
 def createFanChild() {
 	state.oldLabel = device.label    //save the label for reference if it ever changes
@@ -246,7 +249,7 @@ def createLightChild() {
     if (!childDevice) {  
 		childDevice = addChildDevice("KOF Zigbee Fan Controller - Light Child Device", "${device.deviceNetworkId}-Light", null,[completedSetup: true,
         label: "${device.displayName} Light", isComponent: false, componentName: "fanLight",
-        componentLabel: "LIGHT", "data":["parent version":version()]])       
+        componentLabel: "Light", "data":["parent version":version()]])       
         log.info "Creating child light ${childDevice}" 
     }
 	else {
