@@ -20,8 +20,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {return "ver 0.2.20170505" }
+def version() {return "ver 0.2.20170505a" }
 /*  
+    a- fixed line 225 -Light
  05/05 modified Refresh text to Delete&Recreate
 	b- test new label Speed 1 (LOW) technique
     a- evaluating new Speed 1,2,3,4 for ease of voice and look, it matches the fan speed bar icons instead of Lo, Med, Hi
@@ -222,7 +223,7 @@ def updateChildLabel() {
     def childDeviceL = getChildDevices()?.find {
         	it.device.deviceNetworkId == "${device.deviceNetworkId}-Light"
     }
-    if (childDeviceL) {childDeviceL.label = "${device.displayName} Breeze"}    // rename with new label
+    if (childDeviceL) {childDeviceL.label = "${device.displayName}-Light"}    // rename with new label
 }
 def createFanChild() {
 	state.oldLabel = device.label    //save the label for reference if it ever changes
