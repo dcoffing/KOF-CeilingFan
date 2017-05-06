@@ -15,6 +15,7 @@
  */
  def version() {return "ver 0.2.1.20170504"}
 /*
+ 05/05 edit Zigbee to proper ZigBee trademark
  05/04 clean up display in iOS child version, smaller text and center version
  05/03 tweak to icons for ON to match the lighter grey LED look
  05/02 replaced blue rays on icon to be grey when TurningOnOff

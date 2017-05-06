@@ -22,6 +22,7 @@
  */
 def version() {return "ver 0.2.20170505a" }
 /*  
+    b- modifoed labels back w/o SpeedX designation
     a- fixed line 225 -Light
  05/05 modified Refresh text to Delete&Recreate
 	b- test new label Speed 1 (LOW) technique
@@ -96,24 +97,25 @@ metadata {
 			attributeState "lightBrightness", action:"lightLevel"
 		}
 	}
-    standardTile("refresh", "refresh", decoration: "flat", width: 3, height: 3) {
+    standardTile("refresh", "refresh", decoration: "flat", width: 1, height: 1) {
 		state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
 	}  
-    valueTile("version", "version", width:3, height:1) {
+    valueTile("version", "version", width:2, height:1) {
     	state "version", label:"Ceiling Fan Parent\n" + version()
     }
-    valueTile("FchildVer", "FchildVer", width:3, height:1) {
+    valueTile("FchildVer", "FchildVer", width:2, height:1) {
     	state "FchildVer", label: "Fan Child\n"+'${currentValue}'
     }
-    valueTile("LchildVer", "LchildVer", width:3, height:1) {
+    valueTile("LchildVer", "LchildVer", width:2, height:1) {
     	state "LchildVer", label:"Light Child\n"+'${currentValue}'
     }
        
-    childDeviceTiles("fanSpeeds")
+    childDeviceTiles("fanSpeeds", height:1, width:1)
     //childDeviceTile("fanMode1", "fanMode1", height: 1, width: 6)
     
-	main(["switch"])        
-	details(["switch", "fanSpeeds", "refresh", "version", "FchildVer", "LchildVer"])
+	main(["switch"])  
+  	details(["switch", "fanSpeeds", "version", "FchildVer", "LchildVer", "refresh"])
+//	details(["switch", "fanSpeeds", "refresh", "version", "FchildVer", "LchildVer"])
 	}
 }
 
@@ -166,10 +168,10 @@ def getIcon() {
 def getFanName() { 
 	[  
     "00":"Off",
-    "01":"Speed 1 (LOW) ",
-    "02":"Speed 2 (MED)",
-    "03":"Speed 3 (MED-HI)",
-	"04":"Speed 4 (HIGH)",
+    "01":"Low",
+    "02":"Med",
+    "03":"Med-Hi",
+	"04":"High",
     "05":"Off",
     "06":"Comfort Breeze™",
     "07":"Light"
