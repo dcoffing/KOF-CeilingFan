@@ -20,10 +20,15 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {return "ver 0.2.20170510" }
+def version() {"ver 0.2.20170515"}					//update as needed
+
+
+def currVersions(child) {							//Let's user know if running the child versions that corresponds to this parent version
+if(child=="fan") {return "ver 0.2.1.20170515"}		//manually enter the version of the FAN child that matches the parent version above
+if(child=="light") {return "ver 0.2.1.20170515"}	//manually enter the version of the LIGHT child that matches the parent version above
+}
+
 /*  
- 05/10 Just playing with child tile placement for optimum UI. 2x2 but order of tiles not ideal yet
-    b- modifoed labels back w/o SpeedX designation
     a- fixed line 225 -Light
  05/05 modified Refresh text to Delete&Recreate
 	b- test new label Speed 1 (LOW) technique
@@ -56,7 +61,7 @@ metadata {
         capability "Light"
         capability "Sensor" 
         capability "Polling"
-        capability "Health Check"
+        //capability "Health Check"
    
         command "lightOn"
         command "lightOff"
@@ -68,6 +73,8 @@ metadata {
         attribute "lastFanMode", "string"		//used to restore previous fanmode
         attribute "LchildVer", "string"			//stores light child version
         attribute "FchildVer", "string"			//stores fan child version
+        attribute "LchildCurr", "string"			//stores color of version check
+        attribute "FchildCurr", "string"			//stores color of version check
       
 	fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HDC52EastwindFan"
     }
@@ -98,68 +105,73 @@ metadata {
 			attributeState "lightBrightness", action:"lightLevel"
 		}
 	}
-    standardTile("refresh", "refresh", decoration: "flat", width: 2, height: 2) {
+    standardTile("refresh", "refresh", decoration: "flat", width: 2, height: 3) {
 		state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
 	}  
-    valueTile("version", "version", width:2, height:1) {
+    valueTile("version", "version", width:3, height:1) {
     	state "version", label:"Ceiling Fan Parent\n" + version()
     }
-    valueTile("FchildVer", "FchildVer", width:2, height:1) {
+    valueTile("FchildVer", "FchildVer", width:3, height:1) {
     	state "FchildVer", label: "Fan Child\n"+'${currentValue}'
     }
-    valueTile("LchildVer", "LchildVer", width:2, height:1) {
+    valueTile("LchildVer", "LchildVer", width:3, height:1) {
     	state "LchildVer", label:"Light Child\n"+'${currentValue}'
     }
-       
-    childDeviceTiles("fanSpeeds", height:2, width:2)
-    //childDeviceTile("fanMode1", "fanMode1", height: 1, width: 6)
+     valueTile("FchildCurr", "FchildCurr", width:1, height:1) {
+    	state "FchildCurr", label: "", backgroundColors:[
+            [value: 1, color: "#FF0000"],            
+            [value: 2, color: "#3EAE40"]
+        ]
+    }
+    valueTile("LchildCurr", "LchildCurr", width:1, height:1) {
+    	state "LchildCurr", label:"", backgroundColors:[
+            [value: 1, color: "#FF0000"],            
+            [value: 2, color: "#3EAE40"]
+        ]
+    }
     
-	main(["switch"])  
-  	details(["switch", "fanSpeeds", "version", "FchildVer", "LchildVer", "refresh"])
-//	details(["switch", "fanSpeeds", "refresh", "version", "FchildVer", "LchildVer"])
+    //childDeviceTiles("fanSpeeds", height: 1, width: 6)
+    childDeviceTile("fanMode1", "fanMode1", height: 2, width: 2)
+    childDeviceTile("fanMode2", "fanMode2", height: 2, width: 2)
+    childDeviceTile("fanMode3", "fanMode3", height: 2, width: 2)
+    childDeviceTile("fanMode4", "fanMode4", height: 2, width: 2)
+    childDeviceTile("fanMode6", "fanMode6", height: 2, width: 2)
+    childDeviceTile("fanLight", "fanLight", height: 2, width: 2)
+    
+	main(["switch"])        
+	details(["switch", "fanLight", "fanMode1", "fanMode2", "fanMode6", "fanMode3", "fanMode4", "refresh", "FchildVer", "FchildCurr", "LchildVer", "LchildCurr", "version"])
 	}
 }
 
 def parse(String description) {
-		//log.debug "Parse description $description"           
-        def event = zigbee.getEvent(description)
-    	if (event) {
-        	//log.info "ENTER LIGHT"
-            //Don't know what this part of the parse is for
-        	if (event.name == "power") {            	
-                event.value = (event.value as Integer) / 10                
-                sendEvent(event)
-        	}
-        	else {
-            	log.info "Light event detected on controller: ${event}"
-            	def childDevice = getChildDevices()?.find {		//find light child device
-        				it.device.deviceNetworkId == "${device.deviceNetworkId}-Light" 
-                }                
-                childDevice.sendEvent(event)	//send light events to light child device and update lightBrightness attribute
-                if(event.value != "on" && event.value != "off") sendEvent(name: "lightBrightness", value: event.value)
-        	}        
-    	}
-		else {
-        	log.info "Fan event detected on controller"
-			def map = [:]
-			if (description?.startsWith("read attr -")) {
-            	//log.info "FAN - READ"
-				def descMap = zigbee.parseDescriptionAsMap(description)
-				// Fan Control Cluster Attribute Read Response               
-                //log.info descMap
-				if (descMap.cluster == "0202" && descMap.attrId == "0000") {                	                  
-					map.name = "fanMode"
-					map.value = descMap.value
-                    fanSync(descMap.value)
-				} 
-			}	// End of Read Attribute Response
-			def result = null            
-            if (map) {            
-				result = createEvent(map)                
-			}
-			log.debug "Parse returned $map"            
-			return result 
-    	}                
+	//log.debug "Parse description $description"           
+    def event = zigbee.getEvent(description)
+    if (event) {
+    	log.info "Light event detected on controller: ${event}"
+    	def childDevice = getChildDevices()?.find {		//find light child device
+        	it.device.deviceNetworkId == "${device.deviceNetworkId}-Light" 
+        }                
+        childDevice.sendEvent(event)	//send light events to light child device and update lightBrightness attribute
+        if(event.value != "on" && event.value != "off") sendEvent(name: "lightBrightness", value: event.value)        	        
+    }
+	else {
+       	log.info "Fan event detected on controller"
+		def map = [:]
+		if (description?.startsWith("read attr -")) {
+			def descMap = zigbee.parseDescriptionAsMap(description)
+			if (descMap.cluster == "0202" && descMap.attrId == "0000") {     // Fan Control Cluster Attribute Read Response            	                  
+				map.name = "fanMode"
+				map.value = descMap.value
+                fanSync(descMap.value)
+			} 
+		}	// End of Read Attribute Response
+		def result = null            
+        if (map) {            
+			result = createEvent(map)                
+		}
+		log.debug "Parse returned $map"            
+		return result 
+   	}                
 }
 
 def getIcon() {
@@ -255,7 +267,7 @@ def createLightChild() {
     }
     if (!childDevice) {  
 		childDevice = addChildDevice("KOF Zigbee Fan Controller - Light Child Device", "${device.deviceNetworkId}-Light", null,[completedSetup: true,
-        label: "${device.displayName} Light", isComponent: false, componentName: "fanLight",
+        label: "${device.displayName}-Light", isComponent: false, componentName: "fanLight",
         componentLabel: "Light", "data":["parent version":version()]])       
         log.info "Creating child light ${childDevice}" 
     }
@@ -376,10 +388,16 @@ def getChildVer() {
 	def FchildDevice = getChildDevices()?.find {
         	it.device.deviceNetworkId == "${device.deviceNetworkId}-01"
     	}                 
-	if(FchildDevice){sendEvent(name:"FchildVer", value: FchildDevice.version())}	//find a fan device, get version info and store in FchildVer
+	if(FchildDevice){	//find a fan device, 1. get version info and store in FchildVer, 2. check child version is current and set color accordingly
+    	sendEvent(name:"FchildVer", value: FchildDevice.version())	
+    	FchildDevice.version() != currVersions("fan")?sendEvent(name:"FchildCurr", value: 1):sendEvent(name:"FchildCurr", value: 2)
+    }
     
     def LchildDevice = getChildDevices()?.find {
         	it.device.deviceNetworkId == "${device.deviceNetworkId}-Light"
     	}                 
-	if(LchildDevice) {sendEvent(name:"LchildVer", value: LchildDevice.version())}	//find the light device, get version info and store in LchildVer    
+	if(LchildDevice) {	    //find the light device, get version info and store in LchildVer    
+    	sendEvent(name:"LchildVer", value: LchildDevice.version())
+    	LchildDevice.version() != currVersions("light")?sendEvent(name:"LchildCurr", value: 1):sendEvent(name:"LchildCurr", value: 2)
+	}
 }
