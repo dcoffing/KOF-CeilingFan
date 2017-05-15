@@ -17,9 +17,8 @@ KNOWN ISSUES
  - fan and light child device views are only available in iOS mobile app
  - Fan child device view can't change name when using gear icon like you can in Light child device
  */ 
- def version() {return "ver 0.2.1.20170510"}
+ def version() {return "ver 0.2.1.20170515"}
  /*
- 05/10 trying without the flat look, with the large icons it doesn't balance well, return back to flat look
     a- trying 2x2 tile for child devices
  05/04 clean up of unneeded commented code lines, clean up display in iOS child version w/ smaller text and center version
  05/03 renaming PUSH to ENABLE on the label
@@ -50,7 +49,7 @@ metadata {
    }
    
    tiles(scale: 2) {
-// standardTile("fanSpeed", "fanSpeed", decoration: "flat", width: 2, height: 2) {  
+
         standardTile("fanSpeed", "fanSpeed", decoration: "flat", width: 2, height: 2) {  
      		state "off", label:"off", action: "on", icon: getIcon()+"fan00h_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
             state "on01", label: "LOW", action: "off", icon: getIcon()+"fan1j_on.png", backgroundColor: "#79b821", nextState: "turningOff"
@@ -62,7 +61,7 @@ metadata {
            	state "off02", label: "MED", action: "on", icon: getIcon()+"fan2j_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
 			state "off03", label: "MED-HI", action: "on", icon: getIcon()+"fan3j_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
 			state "off04", label: "HIGH", action: "on", icon: getIcon()+"fan4j_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
-			state "off06", label: "ENABLE", action: "on", icon: getIcon()+"breeze4h_off.png", backgroundColor: "#ffffff", nextState: "turningBreezeOn"
+			state "off06", label: "BREEZE", action: "on", icon: getIcon()+"breeze4h_off.png", backgroundColor: "#ffffff", nextState: "turningBreezeOn"
         	state "turningOn", label:"ADJUSTING", action: "on", icon: getIcon()+"Fan.png", backgroundColor: "#2179b8", nextState: "turningOn"
             state "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"Fan.png", backgroundColor:"#2179b8", nextState: "turningOff"
             state "turningBreezeOn", label:"ADJUSTING", action: "on", icon: getIcon()+"breeze4h_blk.png", backgroundColor: "#2179b8", nextState: "turningOn"
