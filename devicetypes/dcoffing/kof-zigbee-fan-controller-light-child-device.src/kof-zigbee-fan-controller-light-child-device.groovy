@@ -13,8 +13,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.1.20170504"}
+ def version() {return "ver 0.2.1.20170510x"}
 /*
+ 05/10  decoration: "flat" added to tile for consistancy across all childs; bug? it won't go flat look
  05/05 edit Zigbee to proper ZigBee trademark
  05/04 clean up display in iOS child version, smaller text and center version
  05/03 tweak to icons for ON to match the lighter grey LED look
@@ -39,7 +40,7 @@ metadata {
    }
 
 	tiles(scale: 2) { 		
-        multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true) {
+        multiAttributeTile(name:"switch", type: "lighting", decoration: "flat", width: 6, height: 4, canChangeIcon: true) {
     		tileAttribute ("switch", key: "PRIMARY_CONTROL") {
         		attributeState "off", label:"off", action: "on", icon: getIcon()+"light_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
 				attributeState "on", label: "on", action: "off", icon: getIcon()+"lightH.png", backgroundColor: "#00A0DC", nextState: "turningOff"

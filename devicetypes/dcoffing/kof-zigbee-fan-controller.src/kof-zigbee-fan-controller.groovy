@@ -20,8 +20,9 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {return "ver 0.2.20170505a" }
+def version() {return "ver 0.2.20170510" }
 /*  
+ 05/10 Just playing with child tile placement for optimum UI. 2x2 but order of tiles not ideal yet
     b- modifoed labels back w/o SpeedX designation
     a- fixed line 225 -Light
  05/05 modified Refresh text to Delete&Recreate
@@ -97,7 +98,7 @@ metadata {
 			attributeState "lightBrightness", action:"lightLevel"
 		}
 	}
-    standardTile("refresh", "refresh", decoration: "flat", width: 1, height: 1) {
+    standardTile("refresh", "refresh", decoration: "flat", width: 2, height: 2) {
 		state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
 	}  
     valueTile("version", "version", width:2, height:1) {
@@ -110,7 +111,7 @@ metadata {
     	state "LchildVer", label:"Light Child\n"+'${currentValue}'
     }
        
-    childDeviceTiles("fanSpeeds", height:1, width:1)
+    childDeviceTiles("fanSpeeds", height:2, width:2)
     //childDeviceTile("fanMode1", "fanMode1", height: 1, width: 6)
     
 	main(["switch"])  

@@ -17,8 +17,9 @@ KNOWN ISSUES
  - fan and light child device views are only available in iOS mobile app
  - Fan child device view can't change name when using gear icon like you can in Light child device
  */ 
- def version() {return "ver 0.2.1.20170504a"}
+ def version() {return "ver 0.2.1.20170510"}
  /*
+ 05/10 trying without the flat look, with the large icons it doesn't balance well, return back to flat look
     a- trying 2x2 tile for child devices
  05/04 clean up of unneeded commented code lines, clean up display in iOS child version w/ smaller text and center version
  05/03 renaming PUSH to ENABLE on the label
@@ -49,7 +50,7 @@ metadata {
    }
    
    tiles(scale: 2) {
-
+// standardTile("fanSpeed", "fanSpeed", decoration: "flat", width: 2, height: 2) {  
         standardTile("fanSpeed", "fanSpeed", decoration: "flat", width: 2, height: 2) {  
      		state "off", label:"off", action: "on", icon: getIcon()+"fan00h_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
             state "on01", label: "LOW", action: "off", icon: getIcon()+"fan1j_on.png", backgroundColor: "#79b821", nextState: "turningOff"
