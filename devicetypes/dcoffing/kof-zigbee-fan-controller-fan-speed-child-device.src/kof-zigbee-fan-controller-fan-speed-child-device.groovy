@@ -19,7 +19,7 @@ KNOWN ISSUES
  */ 
  def version() {return "ver 0.2.170515"}
  /*
-       shorten ver to increase font
+      ;  shorten ver to increase font size
  05/15 pull request merge with Stephan and Ranga changes, Changed Comfort Breeze label from "enable" to "breeze"
     a- trying 2x2 tile for child devices
  05/04 clean up of unneeded commented code lines, clean up display in iOS child version w/ smaller text and center version
