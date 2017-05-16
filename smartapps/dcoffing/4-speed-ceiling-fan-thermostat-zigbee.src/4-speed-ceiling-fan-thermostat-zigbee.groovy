@@ -116,6 +116,7 @@ def optionsPage() {
 
 def aboutPage() {
 	dynamicPage(name: "aboutPage", title: none, install: true, uninstall: true) {
+
      	section("User's Guide; 4 Speed Ceiling Fan Thermostat - ZigBee") {
         	paragraph textHelp()
  		}
@@ -125,6 +126,7 @@ def aboutPage() {
 /* I might be able to take advantage of this next line of code to selectively open the zwave OR the zigbee parent based on hardware input selected?
 private def appName() { return "${parent ? "3 Speed Fan Automation" : "3 Speed Ceiling Fan Thermostat"}" }
 */
+
 private def appName() { return "${parent ? "4 Speed Fan Automation" : "4 Speed Ceiling Fan Thermostat - ZigBee"}" }
 
 def installed() {
@@ -281,6 +283,7 @@ private def textHelp() {
 	def text =
 	
     	"This smartapp provides automatic control of 4 speeds on a"+
+
 		" ZigBee ceiling fan using any temperature sensor based on its' temperature setpoint"+
         " turning on each speed automatically in 1 degree differential increments."+
         " For example, if the desired room temperature setpoint is 72, speed 1 (low)"+
