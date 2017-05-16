@@ -13,9 +13,12 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.1.20170515"}
+ def version() {return "ver 0.2.170515a"}
 /*
- 05/10  decoration: "flat" added to tile for consistancy across all childs
+    a- added valueTile for rangeValue; forced to use 2x2 or bug in device handler makes font unreadably small
+       so modified controlTile 4x2 to match up rangeValue tile size, shorten ver to increase font in tile  
+ 05/15 pull request merge with Stephan and Ranga changes, to allow flat look in parent, changed from multiAttribute to Standard/Control Tile functionality
+ 05/10 decoration: "flat" added to tile for consistancy across all childs
  05/05 edit Zigbee to proper ZigBee trademark
  05/04 clean up display in iOS child version, smaller text and center version
  05/03 tweak to icons for ON to match the lighter grey LED look
@@ -52,20 +55,23 @@ metadata {
     	//	}  
 		//}
         
-         standardTile("switch", "switch", decoration: "flat", width: 6, height: 3, canChangeIcon: true) {    		
-        		state "off", label:"OFF", action: "on", icon: getIcon()+"light_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
-				state "on", label: "ON", action: "off", icon: getIcon()+"lightH.png", backgroundColor: "#00A0DC", nextState: "turningOff"
-                state "turningOn", label:"TURNING ON", action: "on", icon: getIcon()+"lightI.png", backgroundColor: "#2179b8", nextState: "turningOn"
-            	state "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"lightI.png", backgroundColor:"#2179b8", nextState: "turningOff"
+         standardTile("switch", "switch", decoration: "flat", width: 6, height: 4, canChangeIcon: true) {    		
+        	state "off", label:"OFF", action: "on", icon: getIcon()+"light_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
+			state "on", label: "ON", action: "off", icon: getIcon()+"lightH.png", backgroundColor: "#00A0DC", nextState: "turningOff"
+            state "turningOn", label:"TURNING ON", action: "on", icon: getIcon()+"lightI.png", backgroundColor: "#2179b8", nextState: "turningOn"
+            state "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"lightI.png", backgroundColor:"#2179b8", nextState: "turningOff"
         }    	
-    	controlTile ("level", "level", "slider", width: 6, height: 1) {
-        		state "level", action: "setLevel"
-    	}        
+    	controlTile ("level", "level", "slider", width: 4, height: 2) {
+        	state "level", action: "setLevel"
+    	} 
+        valueTile("rangeValue", "device.level", width: 2, height: 2) {
+			state "range", label:'${currentValue}%', defaultState: true
+		}
  		valueTile("version", "version", width: 6, height: 2) {
           	state "version", label:"\n Light Child \n" + version()+"\n"
 		}                
     	main(["switch"])        
-		details(["switch", "level", "version"])    
+		details(["switch", "rangeValue", "level", "version"])    
     }	
 }
 
