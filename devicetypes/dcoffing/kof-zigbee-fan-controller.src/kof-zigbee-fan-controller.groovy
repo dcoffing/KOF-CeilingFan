@@ -20,15 +20,17 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {"ver 0.2.20170515"}					//update as needed
+def version() {"ver 0.2.170515"}					//update as needed
 
 
-def currVersions(child) {							//Let's user know if running the child versions that corresponds to this parent version
-if(child=="fan") {return "ver 0.2.1.20170515"}		//manually enter the version of the FAN child that matches the parent version above
-if(child=="light") {return "ver 0.2.1.20170515"}	//manually enter the version of the LIGHT child that matches the parent version above
+def currVersions(child) {						//Let's user know if running the child versions that corresponds to this parent version
+if(child=="fan")   {return "ver 0.2.170515"}	//manually enter the version of the FAN child that matches the parent version above
+if(child=="light") {return "ver 0.2.170515a"}	//manually enter the version of the LIGHT child that matches the parent version above
 }
 
-/*  
+/*
+
+ 05/15 added GRN=OK RED=Update to version tile, changed parent tile version to fill empty space, shorten ver to increase font in tile
     a- fixed line 225 -Light
  05/05 modified Refresh text to Delete&Recreate
 	b- test new label Speed 1 (LOW) technique
@@ -108,14 +110,14 @@ metadata {
     standardTile("refresh", "refresh", decoration: "flat", width: 2, height: 3) {
 		state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
 	}  
-    valueTile("version", "version", width:3, height:1) {
-    	state "version", label:"Ceiling Fan Parent\n" + version()
+    valueTile("version", "version", width:4, height:1) {
+    	state "version", label:"Ceiling Fan Parent\n"+ version()
     }
     valueTile("FchildVer", "FchildVer", width:3, height:1) {
-    	state "FchildVer", label: "Fan Child\n"+'${currentValue}'
+    	state "FchildVer", label: "Fan Child "+'${currentValue}'+"\nGRN=OK RED=Update"
     }
     valueTile("LchildVer", "LchildVer", width:3, height:1) {
-    	state "LchildVer", label:"Light Child\n"+'${currentValue}'
+    	state "LchildVer", label:"Light Child "+'${currentValue}'+"\nGRN=OK RED=Update"
     }
      valueTile("FchildCurr", "FchildCurr", width:1, height:1) {
     	state "FchildCurr", label: "", backgroundColors:[
