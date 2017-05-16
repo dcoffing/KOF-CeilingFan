@@ -1,5 +1,5 @@
 
-//   Zigbee 4 Speed Ceiling Fan Thermostat Control
+//   ZigBee 4 Speed Ceiling Fan Thermostat Control
    
   def version() {return "v2.1b.20170504" }    
 /*  Change Log
@@ -11,10 +11,10 @@
   
 */
 definition(
-    name: "4 Speed Ceiling Fan Thermostat - Zigbee",
+    name: "4 Speed Ceiling Fan Thermostat - ZigBee",
     namespace: "dcoffing",
     author: "Dale Coffing",
-    description: "Thermostat control for Zigbee 4 Speed Ceiling Fan device (Home Decorators Ceiling Fan/Light Controller MR101Z) using Low, Medium, Medium-High, High speeds with any temperature sensor.",
+    description: "Thermostat control for ZigBee 4 Speed Ceiling Fan device (Home Decorators Ceiling Fan/Light Controller MR101Z) staging each speeds with any temperature sensor.",
     category: "My Apps",
     singleInstance: true,
 	iconUrl: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/3scft125x125.png", 
@@ -41,7 +41,7 @@ def startPage() {
 def parentPage() {
 	return dynamicPage(name: "parentPage", title: "", nextPage: "", install: false, uninstall: true) {
         section("Create a new fan automation.") {
-            app(name: "childApps", appName: appName(), namespace: "dcoffing", title: "New Zigbee Ceiling Fan Automation", multiple: true)
+            app(name: "childApps", appName: appName(), namespace: "dcoffing", title: "New ZigBee Ceiling Fan Automation", multiple: true)
         }
     }
 }
@@ -63,7 +63,7 @@ def childStartPage() {
     		}       
         section("Select the Parent ceiling fan/light control hardware... (NOT the Light or Fan Speed Child )"){
         // fanDimmer
-			input "fanSwitch", "capability.switch", multiple:false, title: "Zigbee Fan Control device", required: true
+			input "fanSwitch", "capability.switch", multiple:false, title: "ZigBee Fan Control device", required: true
 		}
         section("Optional Settings (Diff Temp, Timers, Motion, etc)") {
 			href (name: "optionsPage", 
@@ -116,7 +116,8 @@ def optionsPage() {
 
 def aboutPage() {
 	dynamicPage(name: "aboutPage", title: none, install: true, uninstall: true) {
-     	section("User's Guide; 4 Speed Ceiling Fan Thermostat - Zigbee") {
+
+     	section("User's Guide; 4 Speed Ceiling Fan Thermostat - ZigBee") {
         	paragraph textHelp()
  		}
 	}
@@ -125,7 +126,8 @@ def aboutPage() {
 /* I might be able to take advantage of this next line of code to selectively open the zwave OR the zigbee parent based on hardware input selected?
 private def appName() { return "${parent ? "3 Speed Fan Automation" : "3 Speed Ceiling Fan Thermostat"}" }
 */
-private def appName() { return "${parent ? "4 Speed Fan Automation" : "4 Speed Ceiling Fan Thermostat - Zigbee"}" }
+
+private def appName() { return "${parent ? "4 Speed Fan Automation" : "4 Speed Ceiling Fan Thermostat - ZigBee"}" }
 
 def installed() {
 	log.debug "def INSTALLED with settings: ${settings}"
@@ -281,7 +283,8 @@ private def textHelp() {
 	def text =
 	
     	"This smartapp provides automatic control of 4 speeds on a"+
-		" zigbee ceiling fan using any temperature sensor based on its' temperature setpoint"+
+
+		" ZigBee ceiling fan using any temperature sensor based on its' temperature setpoint"+
         " turning on each speed automatically in 1 degree differential increments."+
         " For example, if the desired room temperature setpoint is 72, speed 1 (low)"+
         " turns on at 73, then speed 2 (medium) at 74, then speed 3 (med-high) at 75, then"+
@@ -293,7 +296,7 @@ private def textHelp() {
         " manufacturers use by always starting in high speed. \n\n"+
       	"A motion option turns off automatic mode when no motion is detected. A thermostat"+
         " mode option will disable the smartapp and pass control to manual control.\n\n"+
-        "This app written specifically for the 'KOF Zigbee Fan Controller Custom Device Handler' used"+
+        "This app written specifically for the 'KOF ZigBee Fan Controller Custom Device Handler' used"+
         " in the Hampton Bay Wink Ceiling Fan MR101Z receiver in the Gardinier 52' Ceiling Fan or"+
         " Universal Ceiling Fan Premier Remote from Home Depot."
     
