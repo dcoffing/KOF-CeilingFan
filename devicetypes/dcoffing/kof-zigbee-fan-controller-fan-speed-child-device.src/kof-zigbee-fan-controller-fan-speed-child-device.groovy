@@ -17,8 +17,10 @@ KNOWN ISSUES
  - fan and light child device views are only available in iOS mobile app
  - Fan child device view can't change name when using gear icon like you can in Light child device
  */ 
- def version() {return "ver 0.2.1.20170515"}
+ def version() {return "ver 0.2.170515"}
  /*
+       shorten ver to increase font
+ 05/15 pull request merge with Stephan and Ranga changes, Changed Comfort Breeze label from "enable" to "breeze"
     a- trying 2x2 tile for child devices
  05/04 clean up of unneeded commented code lines, clean up display in iOS child version w/ smaller text and center version
  05/03 renaming PUSH to ENABLE on the label
