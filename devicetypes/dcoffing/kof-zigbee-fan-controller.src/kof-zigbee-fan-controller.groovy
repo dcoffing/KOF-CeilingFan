@@ -29,6 +29,8 @@ if(child=="light") {return "ver 0.2.170517"}	//manually enter the version of the
 }
 
 /*  
+ 05/17 updated to ST standards and removed unused code
+ 05/16  05/16 removed dash in label: "${device.displayName} Light"
  05/15 added GRN=OK RED=Update to version tile, changed parent tile version to fill empty space, shorten ver to increase font in tile
     a- fixed line 225 -Light
  05/05 modified Refresh text to Delete&Recreate
