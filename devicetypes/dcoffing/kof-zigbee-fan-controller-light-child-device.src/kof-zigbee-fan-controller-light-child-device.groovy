@@ -13,7 +13,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.170515a"}
+ def version() {return "ver 0.2.170517"}
 /*
     a- added valueTile for rangeValue; forced to use 2x2 or bug in device handler makes font unreadably small
        so modified controlTile 4x2 to match up rangeValue tile size, shorten ver to increase font in tile  
