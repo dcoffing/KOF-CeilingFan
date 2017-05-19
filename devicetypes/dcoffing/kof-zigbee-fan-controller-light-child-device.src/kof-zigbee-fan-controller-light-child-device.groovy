@@ -13,7 +13,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.170517"}
+ def version() {return "ver 0.2.170519"}
 /*
     a- added valueTile for rangeValue; forced to use 2x2 or bug in device handler makes font unreadably small
        so modified controlTile 4x2 to match up rangeValue tile size, shorten ver to increase font in tile  
@@ -56,10 +56,10 @@ metadata {
 		//}
         
          standardTile("switch", "switch", decoration: "flat", width: 6, height: 4, canChangeIcon: true) {    		
-        	state "off", label:"OFF", action: "on", icon: getIcon()+"light_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
-			state "on", label: "ON", action: "off", icon: getIcon()+"lightH.png", backgroundColor: "#00A0DC", nextState: "turningOff"
-            state "turningOn", label:"TURNING ON", action: "on", icon: getIcon()+"lightI.png", backgroundColor: "#2179b8", nextState: "turningOn"
-            state "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"lightI.png", backgroundColor:"#2179b8", nextState: "turningOff"
+        	state "off", label:"OFF", action: "on", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/light_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
+			state "on", label: "ON", action: "off", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/lightH.png", backgroundColor: "#00A0DC", nextState: "turningOff"
+            state "turningOn", label:"TURNING ON", action: "on", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/lightI.png", backgroundColor: "#2179b8", nextState: "turningOn"
+            state "turningOff", label:"TURNING OFF", action:"off", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/lightI.png", backgroundColor:"#2179b8", nextState: "turningOff"
         }    	
     	controlTile ("level", "level", "slider", width: 4, height: 2) {
         	state "level", action: "setLevel"
@@ -75,21 +75,14 @@ metadata {
     }	
 }
 
-def getIcon() {
-	return "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/"
-}
-
 def on() {
 	parent.lightOn()
-	sendEvent(name: "switch", value: "on")
 }
 
 def off() {
 	parent.lightOff()
-    sendEvent(name: "switch", value: "off")
 }
 
 def setLevel(val) {
 	parent.lightLevel(val)
-    sendEvent(name: "level", value: val)
 }
