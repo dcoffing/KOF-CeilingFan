@@ -17,7 +17,7 @@ KNOWN ISSUES
  - fan and light child device views are only available in iOS mobile app
  - Fan child device view can't change name when using gear icon like you can in Light child device
  */ 
- def version() {return "ver 0.2.170517"}
+ def version() {return "ver 0.2.170519"}
  /*
       ;  shorten ver to increase font size
  05/15 pull request merge with Stephan and Ranga changes, Changed Comfort Breeze label from "enable" to "breeze"
@@ -53,21 +53,21 @@ metadata {
    tiles(scale: 2) {
 
         standardTile("fanSpeed", "fanSpeed", decoration: "flat", width: 2, height: 2) {  
-     		state "off", label:"off", action: "on", icon: getIcon()+"fan00h_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
-            state "on01", label: "LOW", action: "off", icon: getIcon()+"fan1j_on.png", backgroundColor: "#79b821", nextState: "turningOff"
-           	state "on02", label: "MED", action: "off", icon: getIcon()+"fan2j_on.png", backgroundColor: "#79b821", nextState: "turningOff"
-			state "on03", label: "MED-HI", action: "off", icon: getIcon()+"fan3j_on.png", backgroundColor: "#79b821", nextState: "turningOff"
-			state "on04", label: "HIGH", action: "off", icon: getIcon()+"fan4j_on.png", backgroundColor: "#79b821", nextState: "turningOff"
-			state "on06", label: "BREEZE", action: "off", icon: getIcon()+"breeze4h_teal.png", backgroundColor: "#79b821", nextState: "turningBreezeOff"
-			state "off01", label: "LOW", action: "on", icon: getIcon()+"fan1j_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
-           	state "off02", label: "MED", action: "on", icon: getIcon()+"fan2j_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
-			state "off03", label: "MED-HI", action: "on", icon: getIcon()+"fan3j_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
-			state "off04", label: "HIGH", action: "on", icon: getIcon()+"fan4j_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
-			state "off06", label: "BREEZE", action: "on", icon: getIcon()+"breeze4h_off.png", backgroundColor: "#ffffff", nextState: "turningBreezeOn"
-        	state "turningOn", label:"ADJUSTING", action: "on", icon: getIcon()+"Fan.png", backgroundColor: "#2179b8", nextState: "turningOn"
-            state "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"Fan.png", backgroundColor:"#2179b8", nextState: "turningOff"
-            state "turningBreezeOn", label:"ADJUSTING", action: "on", icon: getIcon()+"breeze4h_blk.png", backgroundColor: "#2179b8", nextState: "turningOn"
-            state "turningBreezeOff", label:"TURNING OFF", action:"off", icon: getIcon()+"breeze4h_blk.png", backgroundColor:"#2179b8", nextState: "turningOff"
+     		state "off", label:"off", action: "on", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan00h_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
+            state "on01", label: "LOW", action: "off", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan1j_on.png", backgroundColor: "#79b821", nextState: "turningOff"
+           	state "on02", label: "MED", action: "off", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan2j_on.png", backgroundColor: "#79b821", nextState: "turningOff"
+			state "on03", label: "MED-HI", action: "off", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan3j_on.png", backgroundColor: "#79b821", nextState: "turningOff"
+			state "on04", label: "HIGH", action: "off", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan4j_on.png", backgroundColor: "#79b821", nextState: "turningOff"
+			state "on06", label: "BREEZE", action: "off", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/breeze4h_teal.png", backgroundColor: "#79b821", nextState: "turningBreezeOff"
+			state "off01", label: "LOW", action: "on", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan1j_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
+           	state "off02", label: "MED", action: "on", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan2j_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
+			state "off03", label: "MED-HI", action: "on", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan3j_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
+			state "off04", label: "HIGH", action: "on", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan4j_off.png", backgroundColor: "#ffffff", nextState: "turningOn"
+			state "off06", label: "BREEZE", action: "on", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/breeze4h_off.png", backgroundColor: "#ffffff", nextState: "turningBreezeOn"
+        	state "turningOn", label:"ADJUSTING", action: "on", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/Fan.png", backgroundColor: "#2179b8", nextState: "turningOn"
+            state "turningOff", label:"TURNING OFF", action:"off", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/Fan.png", backgroundColor:"#2179b8", nextState: "turningOff"
+            state "turningBreezeOn", label:"ADJUSTING", action: "on", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/breeze4h_blk.png", backgroundColor: "#2179b8", nextState: "turningOn"
+            state "turningBreezeOff", label:"TURNING OFF", action:"off", icon: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/breeze4h_blk.png", backgroundColor:"#2179b8", nextState: "turningOff"
 		}
  		valueTile("version", "version", width: 4, height: 2) {
 			state "version", label:"\n Fan Speed Child \n" + version() +"\n"
@@ -76,10 +76,6 @@ metadata {
 		details(["fanSpeed", "version"])    
     
 	}
-}
-
-def getIcon() {
-	return "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/"
 }
 
 def off() {
