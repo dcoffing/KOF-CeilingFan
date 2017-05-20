@@ -80,7 +80,7 @@ metadata {
     }
 
     preferences {
-    	page(name: "childToRebuild")//, title: "This does not display on DTH preference page")
+    	page(name: "childToRebuild")
 			section("section") {
             	input(name: "refreshChildren", type: "bool", title: "Delete & Recreate all child devices?\n\n" +
                 "PLEASE NOTE:\nChild Devices must be removed from any smartApps BEFORE attempting this " +
@@ -112,25 +112,21 @@ metadata {
 		state "default",  action:configure, icon:"st.secondary.configure"
 	}
     standardTile("version", "version", width:3, height:1) {
-    	state "version", label:"Ceiling Fan Parent\n"+ version()
+    	state "version", label:"Fan Parent "+ version()
     }
     standardTile("FchildVer", "FchildVer", width:3, height:1) {
-    	state "FchildVer", label: '${currentValue}'
+    	state "FchildVer", label: "Fan Child "+'${currentValue}'
     }
     standardTile("LchildVer", "LchildVer", width:3, height:1) {
-    	state "LchildVer", label:'${currentValue}'
+    	state "LchildVer", label: "Light Child "+'${currentValue}'
     }
     standardTile("FchildCurr", "FchildCurr", width:1, height:1) {
-    	state "FchildCurr", label: "", backgroundColors:[
-            [value: 1, color: "#FF0000"],
-            [value: 2, color: "#3EAE40"]
-        ]
+    	state "Update", label: '${currentValue}', backgroundColor: "#FF0000"
+        state "OK", label: '${currentValue}', backgroundColor: "#79b821"
     }
     standardTile("LchildCurr", "LchildCurr", width:1, height:1) {
-    	state "LchildCurr", label:"", backgroundColors:[
-            [value: 1, color: "#FF0000"],
-            [value: 2, color: "#3EAE40"]
-        ]
+    	state "Update", label: '${currentValue}', backgroundColor: "#FF0000"
+        state "OK", label: '${currentValue}', backgroundColor: "#79b821"
     }
 
     childDeviceTile("fanMode1", "fanMode1", height: 2, width: 2)
@@ -151,29 +147,25 @@ def parse(String description) {
     def event = zigbee.getEvent(description)
     if (event) {
     	log.info "Status report received from controller: [Light ${event.name} is ${event.value}]"
-    	def childDevice = getChildDevices()?.find {		//find light child device
-        	it.device.deviceNetworkId == "${device.deviceNetworkId}-Light"
-        }
-        childDevice.sendEvent(event)	//send light events to light child device and update lightBrightness attribute
+    	def childDevice = getChildDevices()?.find {it.componentName == "fanLight"}
+        childDevice.sendEvent(event)
         if(event.value != "on" && event.value != "off") sendEvent(name: "lightBrightness", value: event.value)
     }
 	else {
 		def map = [:]
 		if (description?.startsWith("read attr -")) {
 			def descMap = zigbee.parseDescriptionAsMap(description)
-			if (descMap.cluster == "0202" && descMap.attrId == "0000") {     // Fan Control Cluster Attribute Read Response
+			if (descMap.cluster == "0202" && descMap.attrId == "0000") {
 				map.name = "fanMode"
 				map.value = descMap.value
- 				//fanSync(descMap.value)
                 log.info "Status report received from controller: [Fan Mode is ${descMap.value}]"
 			}
-		}	// End of Read Attribute Response
+		}
 		def result = null
         if (map) {
 			result = createEvent(map)
-            fanSync(map.value)
+         	fanSync(map.value)
 		}
-		//log.debug "Parse returned $map"
 		return result
    	}
 }
@@ -219,23 +211,17 @@ def initialize() {
 def updateChildLabel() {
 	log.info "Updating Device Labels"
 	for(i in 1..6) {
-    	def childDevice = getChildDevices()?.find {
-        	it.device.deviceNetworkId == "${device.deviceNetworkId}-0${i}"
-    	}
-        if (childDevice && i != 5) {childDevice.label = "${device.displayName} ${getFanName()["0${i}"]}"} // rename with new label
+    	def childDevice = getChildDevices()?.find {it.componentName == "fanMode${i}"}
+        if (childDevice && i != 5) {childDevice.label = "${device.displayName} ${getFanName()["0${i}"]}"}
     }
-    def childDeviceL = getChildDevices()?.find {
-        	it.device.deviceNetworkId == "${device.deviceNetworkId}-Light"
-    }
-    if (childDeviceL) {childDeviceL.label = "${device.displayName} Light"}    // rename with new label
+    def childDeviceL = getChildDevices()?.find {it.componentName == "fanLight"}
+    if (childDeviceL) {childDeviceL.label = "${device.displayName} Light"}
 }
 
 def createFanChild() {
 	state.oldLabel = device.label  	//save the label for reference if it ever changes
 	for(i in 1..6) {
-    	def childDevice = getChildDevices()?.find {
-        	it.device.deviceNetworkId == "${device.deviceNetworkId}-0${i}"
-    	}
+    	def childDevice = getChildDevices()?.find {it.componentName == "fanMode${i}"}
         if (!childDevice && i != 5) {
            	log.info "Creating Fan Child ${childDevice}"
         	childDevice = addChildDevice("KOF Zigbee Fan Controller - Fan Speed Child Device", "${device.deviceNetworkId}-0${i}", null,[completedSetup: true,
@@ -249,9 +235,7 @@ def createFanChild() {
 }
 
 def createLightChild() {
-    def childDevice = getChildDevices()?.find {
-        	it.device.deviceNetworkId == "${device.deviceNetworkId}-Light"
-    }
+    def childDevice = getChildDevices()?.find {it.componentName == "fanLight"}
     if (!childDevice) {
         log.info "Creating Light Child ${childDevice}"
 		childDevice = addChildDevice("KOF Zigbee Fan Controller - Light Child Device", "${device.deviceNetworkId}-Light", null,[completedSetup: true,
@@ -273,9 +257,9 @@ def deleteChildren() {
 
 def configure() {
 	log.info "Configuring Reporting and Bindings."
-	return zigbee.configureReporting(0x0006, 0x0000, 0x10, 0, 600, null)+	//light on/off state - report min 0 max 600secs(5mins)
-			zigbee.configureReporting(0x0008, 0x0000, 0x20, 1, 600, 0x01)+	//light level state - report min 1 max 600secs(5mins)
-			zigbee.configureReporting(0x0202, 0x0000, 0x30, 0, 600, null)	//fan mode state - report min 0 max 600secs(5mins)
+	return zigbee.configureReporting(0x0006, 0x0000, 0x10, 0, 600, null)+	//light on/off state - report min 0 max 600secs(10mins)
+			zigbee.configureReporting(0x0008, 0x0000, 0x20, 1, 600, 0x01)+	//light level state - report min 1 max 600secs(10mins)
+			zigbee.configureReporting(0x0202, 0x0000, 0x30, 0, 600, null)	//fan mode state - report min 0 max 600secs(10mins)
 }
 
 def on() {
@@ -328,7 +312,6 @@ def fanSync(whichFan) {
         }
    	}
     if(whichFan == "00") sendEvent(name:"switch",value:"off")
-
 }
 
 def ping() {
@@ -342,18 +325,14 @@ def refresh() {
 
 def getChildVer() {
 	log.info "Updating Child Versioning"
-	def FchildDevice = getChildDevices()?.find {
-        	it.device.deviceNetworkId == "${device.deviceNetworkId}-01"
-    	}
+	def FchildDevice = getChildDevices()?.find {it.componentName == "fanMode1"}
 	if(FchildDevice){	//find a fan device, 1. get version info and store in FchildVer, 2. check child version is current and set color accordingly
-    	sendEvent(name:"FchildVer", value: "Fan Child "+FchildDevice.version()+"\nGRN=OK RED=Update")
-    	FchildDevice.version() != currVersions("fan")?sendEvent(name:"FchildCurr", value: 1):sendEvent(name:"FchildCurr", value: 2)
+    	sendEvent(name:"FchildVer", value: FchildDevice.version())
+    	FchildDevice.version() != currVersions("fan")?sendEvent(name:"FchildCurr", value: "Update"):sendEvent(name:"FchildCurr", value: "OK")
     }
-    def LchildDevice = getChildDevices()?.find {
-        	it.device.deviceNetworkId == "${device.deviceNetworkId}-Light"
-    	}
+    def LchildDevice = getChildDevices()?.find {it.componentName == "fanLight"}
 	if(LchildDevice) {	    //find the light device, get version info and store in LchildVer
-    	sendEvent(name:"LchildVer", value: "Light Child "+LchildDevice.version()+"\nGRN=OK RED=Update")
-    	LchildDevice.version() != currVersions("light")?sendEvent(name:"LchildCurr", value: 1):sendEvent(name:"LchildCurr", value: 2)
+    	sendEvent(name:"LchildVer", value: LchildDevice.version())
+    	LchildDevice.version() != currVersions("light")?sendEvent(name:"LchildCurr", value: "Update"):sendEvent(name:"LchildCurr", value: "OK")
 	}
 }
