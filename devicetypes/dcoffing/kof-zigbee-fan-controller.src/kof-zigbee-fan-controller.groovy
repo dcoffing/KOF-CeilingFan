@@ -28,6 +28,7 @@ if(child=="light") {return "ver 0.2.170519"}
 }
 
 /*  
+ 05/23 Added icons from Icons8.com https://icons8.com/icon/39050/Ok
  05/15 added GRN=OK RED=Update to version tile, changed parent tile version to fill empty space, shorten ver to increase font in tile
     a- fixed line 225 -Light
  05/05 modified Refresh text to Delete&Recreate
@@ -121,12 +122,14 @@ metadata {
     	state "LchildVer", label: "Light Child "+'${currentValue}'
     }
     standardTile("FchildCurr", "FchildCurr", width:1, height:1) {
-    	state "Update", label: '${currentValue}', backgroundColor: "#FF0000"
-        state "OK", label: '${currentValue}', backgroundColor: "#79b821"
+//    	state "Update", label: '${currentValue}', backgroundColor: "#FF0000"
+//      state "OK", label: '${currentValue}', backgroundColor: "#79b821"
+		state "Update", label: "", backgroundColor: "", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/update3.png"
+        state "OK", label: "", backgroundColor: "", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/current3.png"
     }
     standardTile("LchildCurr", "LchildCurr", width:1, height:1) {
-    	state "Update", label: '${currentValue}', backgroundColor: "#FF0000"
-        state "OK", label: '${currentValue}', backgroundColor: "#79b821"
+		state "Update", label: "", backgroundColor: "", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/update3.png"
+        state "OK", label: "", backgroundColor: "", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/current3.png"
     }
 
     childDeviceTile("fanMode1", "fanMode1", height: 2, width: 2)
