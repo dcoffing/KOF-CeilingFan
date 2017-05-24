@@ -28,6 +28,7 @@ if(child=="light") {return "ver 0.2.170519"}
 }
 
 /*  
+ 05/24 added parent version check icon verXXX.png and reorganized resized tiles
  05/23 Added icons from Icons8.com https://icons8.com/icon/39050/Ok
  05/15 added GRN=OK RED=Update to version tile, changed parent tile version to fill empty space, shorten ver to increase font in tile
     a- fixed line 225 -Light
@@ -106,17 +107,18 @@ metadata {
 			attributeState "lightBrightness", action:"lightLevel"
 		}
 	}
-    standardTile("refresh", "refresh", decoration: "flat", width: 2, height: 3) {
-		state "default", label:"", action:"refresh.refresh", icon:"st.secondary.refresh"
+    standardTile("refresh", "refresh", decoration: "flat", width: 2, height: 2) {
+		state "default", label:"Version Check", action:"refresh.refresh", icon:"st.secondary.refresh"
 	}
-    standardTile("configure", "configure", decoration: "flat", width: 1, height: 1) {
+    standardTile("configure", "configure", decoration: "flat", width: 2, height: 1) {
 		state "default",  action:configure, icon:"st.secondary.configure"
 	}
     standardTile("version", "version", width:3, height:1) {
     	state "version", label:"Fan Parent "+ version()
     }
+
     standardTile("FchildVer", "FchildVer", width:3, height:1) {
-    	state "FchildVer", label: "Fan Child "+'${currentValue}'
+    	state "FchildCurr", label: "Fan Child "+'${currentValue}'
     }
     standardTile("LchildVer", "LchildVer", width:3, height:1) {
     	state "LchildVer", label: "Light Child "+'${currentValue}'
@@ -131,6 +133,9 @@ metadata {
 		state "Update", label: "", backgroundColor: "", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/update3.png"
         state "OK", label: "", backgroundColor: "", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/current3.png"
     }
+    standardTile("versionCurr", "versionCurr", width:1, height:1) {  //manually change verXXXX.png from green to red if newer version in github
+    	state "versionCurr", label:"", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/ver0519.png"
+    }
 
     childDeviceTile("fanMode1", "fanMode1", height: 2, width: 2)
     childDeviceTile("fanMode2", "fanMode2", height: 2, width: 2)
@@ -141,7 +146,7 @@ metadata {
 
 	main(["switch"])
 	details(["switch", "fanLight", "fanMode1", "fanMode2", "fanMode6", "fanMode3", "fanMode4",
-    		"refresh", "FchildVer", "FchildCurr", "LchildVer", "LchildCurr", "version", "configure"])
+    		"refresh", "version", "versionCurr", "FchildVer", "FchildCurr", "configure", "LchildVer", "LchildCurr"])
 	}
 }
 
