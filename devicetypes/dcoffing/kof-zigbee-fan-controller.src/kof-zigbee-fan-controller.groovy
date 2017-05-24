@@ -20,7 +20,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {"ver 0.2.170519"}
+def version() {"ver 0.2.170524"}
 
 def currVersions(child) {
 if(child=="fan") {return "ver 0.2.170519"}
@@ -28,6 +28,7 @@ if(child=="light") {return "ver 0.2.170519"}
 }
 
 /*  
+    a- manually swapping of icons for version check 
  05/24 added parent version check icon verXXX.png and reorganized resized tiles
  05/23 Added icons from Icons8.com https://icons8.com/icon/39050/Ok
  05/15 added GRN=OK RED=Update to version tile, changed parent tile version to fill empty space, shorten ver to increase font in tile
@@ -84,9 +85,9 @@ metadata {
     preferences {
     	page(name: "childToRebuild")
 			section("section") {
-            	input(name: "refreshChildren", type: "bool", title: "Delete & Recreate all child devices?\n\n" +
-                "PLEASE NOTE:\nChild Devices must be removed from any smartApps BEFORE attempting this " +
-                "process or 'An unexpected error' occurs attempting to delete the child devices.")
+			input(name: "refreshChildren", type: "bool", title: "Delete & Recreate all child devices?\n\n" +
+			"PLEASE NOTE:\nChild Devices must be removed from any smartApps BEFORE attempting this " +
+			"process or 'An unexpected error' occurs attempting to delete the child devices.")
 			}
     }
 
@@ -98,45 +99,42 @@ metadata {
 			attributeState "02", label:"MED", action:"off", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan2h.png", backgroundColor:"#79b821", nextState: "turningOff"
 			attributeState "01", label:"LOW", action:"off", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan1h.png", backgroundColor:"#79b821", nextState: "turningOff"
 			attributeState "06", label:"BREEZE", action:"off", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/breeze4h_blk.png", backgroundColor:"#008B64", nextState: "turningBreezeOff"
-        	attributeState "00", label:"FAN OFF", action:"on", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan00h_grey.png", backgroundColor:"#ffffff", nextState: "turningOn"
+			attributeState "00", label:"FAN OFF", action:"on", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan00h_grey.png", backgroundColor:"#ffffff", nextState: "turningOn"
 			attributeState "turningOn", action:"on", label:"TURNING ON", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan0h.png", backgroundColor:"#2179b8", nextState: "turningOn"
 			attributeState "turningOff", action:"off", label:"TURNING OFF", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/fan0h_grey.png", backgroundColor:"#2179b8", nextState: "turningOff"
-            attributeState "turningBreezeOff", action:"off", label:"TURNING OFF", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/breeze4h_teal.png", backgroundColor:"#2179b8", nextState: "turningOff"
+			attributeState "turningBreezeOff", action:"off", label:"TURNING OFF", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/breeze4h_teal.png", backgroundColor:"#2179b8", nextState: "turningOff"
         }
-        tileAttribute ("lightBrightness", key: "SLIDER_CONTROL") {
+		tileAttribute ("lightBrightness", key: "SLIDER_CONTROL") {
 			attributeState "lightBrightness", action:"lightLevel"
 		}
 	}
-    standardTile("refresh", "refresh", decoration: "flat", width: 2, height: 2) {
+	standardTile("refresh", "refresh", decoration: "flat", width: 3, height: 2) {
 		state "default", label:"Version Check", action:"refresh.refresh", icon:"st.secondary.refresh"
 	}
-    standardTile("configure", "configure", decoration: "flat", width: 2, height: 1) {
+    standardTile("configure", "configure", decoration: "flat", width: 3, height: 1) {
 		state "default",  action:configure, icon:"st.secondary.configure"
 	}
     standardTile("version", "version", width:3, height:1) {
-    	state "version", label:"Fan Parent "+ version()
+		state "version", label:"Fan Parent "+ version(), icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/ver0519.png"
     }
-
     standardTile("FchildVer", "FchildVer", width:3, height:1) {
-    	state "FchildCurr", label: "Fan Child "+'${currentValue}'
+    	state "FchildVer", label: "Fan Child "+'${currentValue}',icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/ver0519.png"
     }
     standardTile("LchildVer", "LchildVer", width:3, height:1) {
-    	state "LchildVer", label: "Light Child "+'${currentValue}'
+    	state "LchildVer", label: "Light Child "+'${currentValue}',icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/ver0519.png"
     }
-    standardTile("FchildCurr", "FchildCurr", width:1, height:1) {
-//    	state "Update", label: '${currentValue}', backgroundColor: "#FF0000"
-//      state "OK", label: '${currentValue}', backgroundColor: "#79b821"
-		state "Update", label: "", backgroundColor: "", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/update3.png"
-        state "OK", label: "", backgroundColor: "", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/current3.png"
+/*    standardTile("FchildCurr", "FchildCurr", width:1, height:1) {
+		state "Update",icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/update5.png"
+        state "OK",    icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/current5.png"
     }
     standardTile("LchildCurr", "LchildCurr", width:1, height:1) {
-		state "Update", label: "", backgroundColor: "", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/update3.png"
-        state "OK", label: "", backgroundColor: "", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/current3.png"
+		state "Update", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/update5.png"
+        state "OK",     icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/current5.png"
     }
     standardTile("versionCurr", "versionCurr", width:1, height:1) {  //manually change verXXXX.png from green to red if newer version in github
     	state "versionCurr", label:"", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/ver0519.png"
     }
-
+*/
     childDeviceTile("fanMode1", "fanMode1", height: 2, width: 2)
     childDeviceTile("fanMode2", "fanMode2", height: 2, width: 2)
     childDeviceTile("fanMode3", "fanMode3", height: 2, width: 2)
@@ -146,7 +144,7 @@ metadata {
 
 	main(["switch"])
 	details(["switch", "fanLight", "fanMode1", "fanMode2", "fanMode6", "fanMode3", "fanMode4",
-    		"refresh", "version", "versionCurr", "FchildVer", "FchildCurr", "configure", "LchildVer", "LchildCurr"])
+			"refresh", "version", "versionCurr", "FchildVer", "FchildCurr", "configure", "LchildVer", "LchildCurr"])
 	}
 }
 
