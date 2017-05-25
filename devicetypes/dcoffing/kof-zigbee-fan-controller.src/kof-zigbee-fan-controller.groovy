@@ -19,8 +19,9 @@
  *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
+ *  Validation icons modified from Icons8.com https://icons8.com/icon/39050/Ok
  */
-def version() {"ver 0.2.170524"}
+def version() {"ver 0.2.170524a"}
 
 def currVersions(child) {
 if(child=="fan") {return "ver 0.2.170519"}
@@ -28,9 +29,12 @@ if(child=="light") {return "ver 0.2.170519"}
 }
 
 /*  
-    a- manually swapping of icons for version check 
+    a- manually swapping of current/update icons for version check to simplify code 
+       Using current3.png and update3.png and copying as verXXXS.png
+       Copy current3.png to ver0524 now and copy in update3.png when new version released.
+       This will produce a small but growing list of verXXXX.png but will automatically flag users update is available
  05/24 added parent version check icon verXXX.png and reorganized resized tiles
- 05/23 Added icons from Icons8.com https://icons8.com/icon/39050/Ok
+ 05/23 Added validation icons from Icons8.com 
  05/15 added GRN=OK RED=Update to version tile, changed parent tile version to fill empty space, shorten ver to increase font in tile
     a- fixed line 225 -Light
  05/05 modified Refresh text to Delete&Recreate
@@ -108,33 +112,33 @@ metadata {
 			attributeState "lightBrightness", action:"lightLevel"
 		}
 	}
-	standardTile("refresh", "refresh", decoration: "flat", width: 3, height: 2) {
-		state "default", label:"Version Check", action:"refresh.refresh", icon:"st.secondary.refresh"
+	standardTile("refresh", "refresh", decoration: "flat", width: 2, height: 2) {
+		state "default", label:"Version Check", action:"refresh.refresh", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/refresh2.png"
 	}
-    standardTile("configure", "configure", decoration: "flat", width: 3, height: 1) {
+    standardTile("configure", "configure", decoration: "flat", width: 2, height: 1) {
 		state "default",  action:configure, icon:"st.secondary.configure"
 	}
     standardTile("version", "version", width:3, height:1) {
-		state "version", label:"Fan Parent "+ version(), icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/ver0519.png"
+		state "version", label:"Fan Parent "+ version() 
     }
     standardTile("FchildVer", "FchildVer", width:3, height:1) {
-    	state "FchildVer", label: "Fan Child "+'${currentValue}',icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/ver0519.png"
+    	state "FchildVer", label: "Fan Child "+'${currentValue}'
     }
     standardTile("LchildVer", "LchildVer", width:3, height:1) {
-    	state "LchildVer", label: "Light Child "+'${currentValue}',icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/ver0519.png"
+    	state "LchildVer", label: "Light Child "+'${currentValue}'
     }
-/*    standardTile("FchildCurr", "FchildCurr", width:1, height:1) {
-		state "Update",icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/update5.png"
-        state "OK",    icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/current5.png"
+	standardTile("versionCurr", "versionCurr", width:1, height:1) {  //manually change verXXXX.png from green to red if newer version in github
+		state "versionCurr", label:"", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/ver0524a.png"
+    }
+    standardTile("FchildCurr", "FchildCurr", width:1, height:1) {
+		state "Update",icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/update3.png"
+        state "OK",    icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/ver0524a.png"
     }
     standardTile("LchildCurr", "LchildCurr", width:1, height:1) {
-		state "Update", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/update5.png"
-        state "OK",     icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/current5.png"
+		state "Update", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/update3.png"
+        state "OK",     icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/ver0524a.png"
     }
-    standardTile("versionCurr", "versionCurr", width:1, height:1) {  //manually change verXXXX.png from green to red if newer version in github
-    	state "versionCurr", label:"", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/ver0519.png"
-    }
-*/
+
     childDeviceTile("fanMode1", "fanMode1", height: 2, width: 2)
     childDeviceTile("fanMode2", "fanMode2", height: 2, width: 2)
     childDeviceTile("fanMode3", "fanMode3", height: 2, width: 2)
