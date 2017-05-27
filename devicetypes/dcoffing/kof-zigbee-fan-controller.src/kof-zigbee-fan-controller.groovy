@@ -112,19 +112,19 @@ metadata {
 			attributeState "lightBrightness", action:"lightLevel"
 		}
 	}
-	standardTile("refresh", "refresh", decoration: "flat", width: 2, height: 2) {
-		state "default", label:"Version Check", action:"refresh.refresh", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/refresh2.png"
+	standardTile("refresh", "refresh", decoration: "flat", width: 5, height: 2) {
+		state "default", label:"Click for Version Check", action:"refresh.refresh", icon:"https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/refresh2.png"
 	}
-    standardTile("configure", "configure", decoration: "flat", width: 2, height: 1) {
+    standardTile("configure", "configure", decoration: "flat", width: 1, height: 2) {
 		state "default",  action:configure, icon:"st.secondary.configure"
 	}
-    standardTile("version", "version", width:3, height:1) {
+    standardTile("version", "version", width:5, height:1) {
 		state "version", label:"Fan Parent "+ version() 
     }
-    standardTile("FchildVer", "FchildVer", width:3, height:1) {
+    standardTile("FchildVer", "FchildVer", width:5, height:1) {
     	state "FchildVer", label: "Fan Child "+'${currentValue}'
     }
-    standardTile("LchildVer", "LchildVer", width:3, height:1) {
+    standardTile("LchildVer", "LchildVer", width:5, height:1) {
     	state "LchildVer", label: "Light Child "+'${currentValue}'
     }
 	standardTile("versionCurr", "versionCurr", width:1, height:1) {  //manually change verXXXX.png from green to red if newer version in github
@@ -148,7 +148,7 @@ metadata {
 
 	main(["switch"])
 	details(["switch", "fanLight", "fanMode1", "fanMode2", "fanMode6", "fanMode3", "fanMode4",
-			"refresh", "version", "versionCurr", "FchildVer", "FchildCurr", "configure", "LchildVer", "LchildCurr"])
+			"refresh", "configure", "version", "versionCurr", "FchildVer", "FchildCurr",  "LchildVer", "LchildCurr"])
 	}
 }
 
