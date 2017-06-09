@@ -1,8 +1,10 @@
 
 //   ZigBee 4 Speed Ceiling Fan Thermostat Control
    
-  def version() {return "v2.1b.20170504" }    
+  def version() {return "v0.1b.20170609" }    
 /*  Change Log
+ 2017-06-09 removed the delay line for LOW speed start until ST platform issues are resolved
+ 2017-06-01 removed singleInstance since we don't use a Service Manager, move Version Info, User Guide to Parent screen
  2017-05-04 fixed user manual title to 4Speed, icons moved to KOF repo, user manual content revised
   bugfix, even though published and I load this from MyApps it still is using the older version code from zwave parent/child
  2017-04-27  starting modifications for zigbee
@@ -16,7 +18,7 @@ definition(
     author: "Dale Coffing",
     description: "Thermostat control for ZigBee 4 Speed Ceiling Fan device (Home Decorators Ceiling Fan/Light Controller MR101Z) staging each speeds with any temperature sensor.",
     category: "My Apps",
-    singleInstance: true,
+//    singleInstance: true,
 	iconUrl: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/3scft125x125.png", 
    	iconX2Url: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/3scft250x250.png",
 	iconX3Url: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/3scft250x250.png",
@@ -43,6 +45,15 @@ def parentPage() {
         section("Create a new fan automation.") {
             app(name: "childApps", appName: appName(), namespace: "dcoffing", title: "New ZigBee Ceiling Fan Automation", multiple: true)
         }
+        section("Version Info, User's Guide") {
+			href (name: "aboutPage", 
+			title: "4 Speed Ceiling Fan Thermostat \n"+ version() +" \n"+"Copyright © 2017 Dale Coffing", 
+			description: "Tap for SmartApp info & User's Guide",
+			image: "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/3scft125x125.png",
+			required: false,
+			page: "aboutPage"
+			)
+		}
     }
 }
 
@@ -79,7 +90,7 @@ def childStartPage() {
         	label(title: "Assign a name", required: false)
         }
         
-        section("Version Info, User's Guide") {
+/*        section("Version Info, User's Guide") {
 // VERSION
 			href (name: "aboutPage", 
 			title: "4 Speed Ceiling Fan Thermostat \n"+ version() +" \n"+"Copyright © 2017 Dale Coffing", 
@@ -89,7 +100,7 @@ def childStartPage() {
 			page: "aboutPage"
 			)
 		}
-	}
+*/	}
 }      
 
 def optionsPage() {
@@ -116,7 +127,6 @@ def optionsPage() {
 
 def aboutPage() {
 	dynamicPage(name: "aboutPage", title: none, install: true, uninstall: true) {
-
      	section("User's Guide; 4 Speed Ceiling Fan Thermostat - ZigBee") {
         	paragraph textHelp()
  		}
@@ -126,7 +136,6 @@ def aboutPage() {
 /* I might be able to take advantage of this next line of code to selectively open the zwave OR the zigbee parent based on hardware input selected?
 private def appName() { return "${parent ? "3 Speed Fan Automation" : "3 Speed Ceiling Fan Thermostat"}" }
 */
-
 private def appName() { return "${parent ? "4 Speed Fan Automation" : "4 Speed Ceiling Fan Thermostat - ZigBee"}" }
 
 def installed() {
@@ -241,8 +250,9 @@ private tempCheck(currentTemp, desiredTemp)
        		case { it >= LowDiff }:
             	// turn on fan LOW speed1
             	if (fanSwitch.currentSwitch == "off") {		// if fan is OFF to make it easier on motor by   
-            		fanSwitch.setFanSpeed(4)					// starting fan in High speed temporarily then 
-                	fanSwitch.setFanSpeed(1, [delay: 500])	// change to Low speed after 1/2 second
+//            		fanSwitch.setFanSpeed(4)					// starting fan in High speed temporarily then 
+//                	fanSwitch.setFanSpeed(1, [delay: 500])	// change to Low speed after 1/2 second
+                    fanSwitch.setFanSpeed(1)	            // took out Hi speed start delay until ST platform issues are resolved causing HI speed stuck on
                 	log.debug "LO speed after HI 3secs(CT=$currentTemp, SP=$desiredTemp, FS=$fanSwitch.currentSwitch, LowDiff=$LowDiff)"
           		} else {
                 	fanSwitch.setFanSpeed(1)	//fan is already running, not necessary to protect motor
@@ -283,7 +293,6 @@ private def textHelp() {
 	def text =
 	
     	"This smartapp provides automatic control of 4 speeds on a"+
-
 		" ZigBee ceiling fan using any temperature sensor based on its' temperature setpoint"+
         " turning on each speed automatically in 1 degree differential increments."+
         " For example, if the desired room temperature setpoint is 72, speed 1 (low)"+
