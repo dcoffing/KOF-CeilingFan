@@ -25,7 +25,7 @@ def version() {"ver 0.2.170515"}					//update as needed
 
 def currVersions(child) {						//Let's user know if running the child versions that corresponds to this parent version
 if(child=="fan")   {return "ver 0.2.170515"}	//manually enter the version of the FAN child that matches the parent version above
-if(child=="light") {return "ver 0.2.170515a"}	//manually enter the version of the LIGHT child that matches the parent version above
+if(child=="light") {return "ver 0.2.170515"}	//manually enter the version of the LIGHT child that matches the parent version above
 }
 
 /*
@@ -56,13 +56,13 @@ if(child=="light") {return "ver 0.2.170515a"}	//manually enter the version of th
 */
 metadata {
 	definition (name: "KOF Zigbee Fan Controller", namespace: "dcoffing", author: "Stephan Hackett, Ranga Pedamallu, Dale Coffing") {
-		capability "Actuator"
+		// capability "Actuator"
         capability "Configuration"
         capability "Refresh"
         capability "Switch"       
-        capability "Light"
-        capability "Sensor" 
-        capability "Polling"
+        // capability "Light"
+        // capability "Sensor" 
+        // capability "Polling"
         //capability "Health Check"
    
         command "lightOn"
@@ -79,6 +79,11 @@ metadata {
         attribute "FchildCurr", "string"			//stores color of version check
       
 	fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HDC52EastwindFan"
+    fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HDC52EastwindFan", manufacturer: "King Of Fans, Inc."
+    fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 020"
+    
+    
+
     }
     
     preferences {
@@ -216,7 +221,7 @@ def updated() {
 }
 
 def initialize() {	
-	log.info "Initializing"     
+	log.info "Initializing"    
        	if(refreshChildren) {        	
             deleteChildren()            
     		device.updateSetting("refreshChildren", false)            
@@ -249,8 +254,8 @@ def createFanChild() {
         	it.device.deviceNetworkId == "${device.deviceNetworkId}-0${i}"
     	}                 
         if (!childDevice && i != 5) {        
-        	childDevice = addChildDevice("KOF Zigbee Fan Controller - Fan Speed Child Device", "${device.deviceNetworkId}-0${i}", null,[completedSetup: true,
-            label: "${device.displayName} ${getFanName()["0${i}"]}", isComponent: true, componentName: "fanMode${i}",
+        	childDevice = addChildDevice("KOF Zigbee Fan Controller - Fan Speed Child Device", "${device.deviceNetworkId}-0${i}", null,[completedSetup: false,
+            label: "${device.displayName} ${getFanName()["0${i}"]}", isComponent: false,
             componentLabel: "${getFanName()["0${i}"]}", "data":["speedVal":"0${i}","parent version":version()]])        	
            	log.info "Creating child fan mode ${childDevice}"  
 		}
@@ -268,10 +273,15 @@ def createLightChild() {
         	it.device.deviceNetworkId == "${device.deviceNetworkId}-Light"
     }
     if (!childDevice) {  
-		childDevice = addChildDevice("KOF Zigbee Fan Controller - Light Child Device", "${device.deviceNetworkId}-Light", null,[completedSetup: true,
-        label: "${device.displayName} Light", isComponent: false, componentName: "fanLight",
+        log.debug "That's the hub id ${device.hub.id}" 
+    
+		childDevice = addChildDevice("KOF Zigbee Fan Controller - Light Child Device", "${device.deviceNetworkId}-1", null,[completedSetup: false,
+        label: "${device.displayName} Light", isComponent: false,
         componentLabel: "Light", "data":["parent version":version()]])       
-        log.info "Creating child light ${childDevice}" 
+         
+        
+        
+        log.info "Created child light ${childDevice}" 
     }
 	else {
         log.info "Child already exists"          
@@ -402,4 +412,11 @@ def getChildVer() {
     	sendEvent(name:"LchildVer", value: LchildDevice.version())
     	LchildDevice.version() != currVersions("light")?sendEvent(name:"LchildCurr", value: 1):sendEvent(name:"LchildCurr", value: 2)
 	}
+}
+
+void childOn(String dni) {
+        onOffCmd(0xFF, channelNumber(dni))
+}
+void childOff(String dni) {
+        onOffCmd(0, channelNumber(dni))
 }

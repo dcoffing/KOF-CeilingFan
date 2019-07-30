@@ -13,7 +13,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.170515a"}
+ def version() {return "ver 0.2.170515"}
 /*
     a- added valueTile for rangeValue; forced to use 2x2 or bug in device handler makes font unreadably small
        so modified controlTile 4x2 to match up rangeValue tile size, shorten ver to increase font in tile  
@@ -34,62 +34,87 @@
  2017 Year
 */
 metadata {
-	definition (name: "KOF Zigbee Fan Controller - Light Child Device", namespace: "dcoffing", author: "Stephan Hackett") {
+	definition (name: "KOF Zigbee Fan Controller - Light Child Device", namespace: "dcoffing", author: "Stephan Hackett", mnmn: "SmartThings", vid: "generic-switch", runLocally: true, executeCommandsLocally: true) {
 		capability "Actuator"
+    
+//		capability "Actuator"
         capability "Switch"
         capability "Switch Level"
-        capability "Light"
-        capability "Sensor" 
+//        capability "Light"
+//        capability "Sensor" 
    }
 
 	tiles(scale: 2) { 		
-        //multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true) {
-    	//	tileAttribute ("switch", key: "PRIMARY_CONTROL") {
-        //		attributeState "off", label:"off", action: "on", icon: getIcon()+"light_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
-		//		attributeState "on", label: "on", action: "off", icon: getIcon()+"lightH.png", backgroundColor: "#00A0DC", nextState: "turningOff"
-        //      attributeState "turningOn", label:"TURNING ON", action: "on", icon: getIcon()+"lightI.png", backgroundColor: "#2179b8", nextState: "turningOn"
-        //	attributeState "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"lightI.png", backgroundColor:"#2179b8", nextState: "turningOff"
-        //	}    	
-    	//	tileAttribute ("device.level", key: "SLIDER_CONTROL") {
-        //		attributeState "level", action: "setLevel"
-    	//	}  
-		//}
+         
+         multiAttributeTile(name: "switch", type: "lighting", width: 1, height: 1, canChangeIcon: true) {    		
+            tileAttribute("device.switch", key: "PRIMARY_CONTROL") {
+				attributeState("on", label:'${name}', action:"switch.off", icon:"st.lights.philips.hue-single", backgroundColor:"#00a0dc", nextState:"turningOff")
+				attributeState("off", label:'${name}', action:"switch.on", icon:"st.lights.philips.hue-single", backgroundColor:"#ffffff", nextState:"turningOn")
+				attributeState("turningOn", label:'${name}', action:"switch.off", icon:"st.lights.philips.hue-single", backgroundColor:"#00a0dc", nextState:"turningOff")
+				attributeState("turningOff", label:'${name}', action:"switch.on", icon:"st.lights.philips.hue-single", backgroundColor:"#ffffff", nextState:"turningOn")
+			}
+            
+            
+            tileAttribute ("device.level", key: "SLIDER_CONTROL") {
+				attributeState "level", action:"switch level.setLevel"
+			}
+            
+            // controlTile ("level", "level", "slider", width: 4, height: 2) {
+        	// state "level", action: "setLevel"
+    	    // } 
+            
+        	// state "off", label:"OFF", action: "on", icon: getIcon()+"light_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
+			// state "on", label: "ON", action: "off", icon: getIcon()+"lightH.png", backgroundColor: "#00A0DC", nextState: "turningOff"
+            // state "turningOn", label:"TURNING ON", action: "on", icon: getIcon()+"lightI.png", backgroundColor: "#2179b8", nextState: "turningOn"
+            // state "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"lightI.png", backgroundColor:"#2179b8", nextState: "turningOff"
+        }  
         
-         standardTile("switch", "switch", decoration: "flat", width: 6, height: 4, canChangeIcon: true) {    		
-        	state "off", label:"OFF", action: "on", icon: getIcon()+"light_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
-			state "on", label: "ON", action: "off", icon: getIcon()+"lightH.png", backgroundColor: "#00A0DC", nextState: "turningOff"
-            state "turningOn", label:"TURNING ON", action: "on", icon: getIcon()+"lightI.png", backgroundColor: "#2179b8", nextState: "turningOn"
-            state "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"lightI.png", backgroundColor:"#2179b8", nextState: "turningOff"
-        }    	
-    	controlTile ("level", "level", "slider", width: 4, height: 2) {
-        	state "level", action: "setLevel"
-    	} 
-        valueTile("rangeValue", "device.level", width: 2, height: 2) {
-			state "range", label:'${currentValue}%', defaultState: true
-		}
- 		valueTile("version", "version", width: 6, height: 2) {
-          	state "version", label:"\n Light Child \n" + version()+"\n"
-		}                
+        
+        controlTile("levelSliderControl", "device.level", "slider", width: 6, height: 1) {
+	      	state "level", action:"switch level.setLevel"
+      	}
+    
+    
     	main(["switch"])        
-		details(["switch", "rangeValue", "level", "version"])    
+		details(["switch", "levelSliderControl", "slider"])    
     }	
 }
 
-def getIcon() {
-	return "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/"
-}
 
 def on() {
 	parent.lightOn()
+    parent.childOn(device.deviceNetworkId)
 	sendEvent(name: "switch", value: "on")
 }
 
 def off() {
 	parent.lightOff()
     sendEvent(name: "switch", value: "off")
+    parent.childOff(device.deviceNetworkId)
 }
 
 def setLevel(val) {
 	parent.lightLevel(val)
     sendEvent(name: "level", value: val)
+}
+
+def ping() {
+	log.debug "ping().."
+	refresh()
+}
+
+def refresh() {
+	log.debug "refresh()"
+}
+
+def installed() {
+ 	initialize()
+}
+
+def updated() {
+ 	initialize()
+}
+
+def initialize() {
+    state.version = version()
 }
