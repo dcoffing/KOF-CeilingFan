@@ -20,12 +20,12 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {"ver 0.2.170515"}					//update as needed
+def version() {"ver 0.2.21"}					//update as needed
 
 
 def currVersions(child) {						//Let's user know if running the child versions that corresponds to this parent version
-if(child=="fan")   {return "ver 0.2.170515"}	//manually enter the version of the FAN child that matches the parent version above
-if(child=="light") {return "ver 0.2.170516a"}	//manually enter the version of the LIGHT child that matches the parent version above
+if(child=="fan")   {return "ver 0.2.21"}	//manually enter the version of the FAN child that matches the parent version above
+if(child=="light") {return "ver 0.2.21"}	//manually enter the version of the LIGHT child that matches the parent version above
 }
 
 /*
@@ -78,7 +78,12 @@ metadata {
         attribute "LchildCurr", "string"			//stores color of version check
         attribute "FchildCurr", "string"			//stores color of version check
       
-	fingerprint profileId: "0104", inClusters: "0000, 0003, 0004, 0005, 0006, 0008, 0202", outClusters: "0003, 0019", model: "HDC52EastwindFan"
+	fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0008,0202", outClusters: "0003,0019", model: "HDC52EastwindFan", deviceJoinName: "King Of Fans, Inc."
+    fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0008,0202", outClusters: "0019", manufacturer: "King Of Fans, Inc.", model: "HDC52EastwindFan", deviceJoinName: "King Of Fans, Inc."
+    fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0008,0202", outClusters: "0003,0019", deviceJoinName: "King Of Fans, Inc."
+    
+    
+    
     }
     
     preferences {
@@ -250,7 +255,7 @@ def createFanChild() {
     	}                 
         if (!childDevice && i != 5) {        
         	childDevice = addChildDevice("KOF Zigbee Fan Controller - Fan Speed Child Device", "${device.deviceNetworkId}-0${i}", null,[completedSetup: true,
-            label: "${device.displayName} ${getFanName()["0${i}"]}", isComponent: true, componentName: "fanMode${i}",
+            label: "${device.displayName} ${getFanName()["0${i}"]}", isComponent: false, componentName: "fanMode${i}",
             componentLabel: "${getFanName()["0${i}"]}", "data":["speedVal":"0${i}","parent version":version()]])        	
            	log.info "Creating child fan mode ${childDevice}"  
 		}

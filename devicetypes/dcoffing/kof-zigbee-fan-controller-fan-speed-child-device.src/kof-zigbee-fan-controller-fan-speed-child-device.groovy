@@ -17,7 +17,7 @@ KNOWN ISSUES
  - fan and light child device views are only available in iOS mobile app
  - Fan child device view can't change name when using gear icon like you can in Light child device
  */ 
- def version() {return "ver 0.2.170515"}
+ def version() {return "ver 0.2.18"}
  /*
       ;  shorten ver to increase font size
  05/15 pull request merge with Stephan and Ranga changes, Changed Comfort Breeze label from "enable" to "breeze"
@@ -41,7 +41,7 @@ KNOWN ISSUES
 */
 
 metadata {
-	definition (name: "KOF Zigbee Fan Controller - Fan Speed Child Device", namespace: "dcoffing", author: "Stephan Hackett") {
+	definition (name: "KOF Zigbee Fan Controller - Fan Speed Child Device", namespace: "dcoffing", author: "Stephan Hackett", mnmn: "SmartThings", vid: "generic-switch", runLocally: true, executeCommandsLocally: true, ocfDeviceType: "oic.d.fan") {
 		capability "Actuator"
         capability "Switch"
         capability "Light"
