@@ -20,12 +20,12 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
-def version() {"ver 0.2.21"}					//update as needed
+def version() {"ver 0.2.18"}					//update as needed
 
 
 def currVersions(child) {						//Let's user know if running the child versions that corresponds to this parent version
-if(child=="fan")   {return "ver 0.2.21"}	//manually enter the version of the FAN child that matches the parent version above
-if(child=="light") {return "ver 0.2.21"}	//manually enter the version of the LIGHT child that matches the parent version above
+if(child=="fan")   {return "ver 0.2.18"}	//manually enter the version of the FAN child that matches the parent version above
+if(child=="light") {return "ver 0.2.18a"}	//manually enter the version of the LIGHT child that matches the parent version above
 }
 
 /*
@@ -55,7 +55,8 @@ if(child=="light") {return "ver 0.2.21"}	//manually enter the version of the LIG
  04/19 added version tile to help in troubleshooting with users
 */
 metadata {
-	definition (name: "KOF Zigbee Fan Controller", namespace: "dcoffing", author: "Stephan Hackett, Ranga Pedamallu, Dale Coffing", mnmn: "SmartThings", vid: "generic-switch", runLocally: true, executeCommandsLocally: true, ocfDeviceType: "oic.d.fan") {
+	definition (name: "KOF Zigbee Fan Controller", namespace: "dcoffing", author: "Stephan Hackett, Ranga Pedamallu, Dale Coffing", mnmn: "SmartThings", vid: "generic-rgbw-color-bulb", ocfDeviceType: "oic.d.fan") {
+    ///  runLocally: true, executeCommandsLocally: true, 
 		capability "Actuator"
         capability "Configuration"
         capability "Refresh"
@@ -78,12 +79,7 @@ metadata {
         attribute "LchildCurr", "string"			//stores color of version check
         attribute "FchildCurr", "string"			//stores color of version check
       
-	fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0008,0202", outClusters: "0003,0019", model: "HDC52EastwindFan", deviceJoinName: "King Of Fans, Inc."
-    fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0008,0202", outClusters: "0019", manufacturer: "King Of Fans, Inc.", model: "HDC52EastwindFan", deviceJoinName: "King Of Fans, Inc."
-    fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0008,0202", outClusters: "0003,0019", deviceJoinName: "King Of Fans, Inc."
-    
-    
-    
+	fingerprint profileId: "0104", inClusters: "0000,0003,0004,0005,0006,0008,0202", outClusters: "0003,0019" //, model: "HDC52EastwindFan"
     }
     
     preferences {
@@ -151,7 +147,7 @@ metadata {
 }
 
 def parse(String description) {
-	//log.debug "Parse description $description"           
+	log.debug "Parse description $description"           
     def event = zigbee.getEvent(description)
     if (event) {
     	log.info "Light event detected on controller: ${event}"

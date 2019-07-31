@@ -13,7 +13,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.170516a"}
+ def version() {return "ver 0.2.18a"}
 /*
     a- added valueTile for rangeValue; forced to use 2x2 or bug in device handler makes font unreadably small
        so modified controlTile 4x2 to match up rangeValue tile size, shorten ver to increase font in tile  
@@ -35,7 +35,7 @@
 */
 metadata {
 	definition (name: "KOF Zigbee Fan Controller - Light Child Device", namespace: "dcoffing", author: "Stephan Hackett", mnmn: "SmartThings", 
-    	ocfDeviceType: "oic.d.light", vid: "generic-dimmer", minHubCoreVersion: '000.021.00001',runLocally: true, executeCommandsLocally: true) {
+    	ocfDeviceType: "oic.d.light", vid: "generic-rgbw-color-bulb", minHubCoreVersion: '000.021.00001',runLocally: true, executeCommandsLocally: true) {
         capability "Actuator"
         capability "Configuration"
         capability "Refresh"
