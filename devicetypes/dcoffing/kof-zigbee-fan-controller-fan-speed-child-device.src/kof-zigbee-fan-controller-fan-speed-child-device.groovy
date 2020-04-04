@@ -83,6 +83,7 @@ def getIcon() {
 }
 
 def off() {
+	log.info "CHILD ${getDataValue('speedVal')} TURNED ON"    
 	parent.off()  
 }
 
