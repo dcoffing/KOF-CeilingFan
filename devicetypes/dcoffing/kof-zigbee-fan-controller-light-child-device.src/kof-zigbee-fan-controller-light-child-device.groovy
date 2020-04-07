@@ -13,7 +13,7 @@
  *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
  *  for the specific language governing permissions and limitations under the License.
  */
- def version() {return "ver 0.2.170515a"}
+ def version() {return "ver 0.2.18a"}
 /*
     a- added valueTile for rangeValue; forced to use 2x2 or bug in device handler makes font unreadably small
        so modified controlTile 4x2 to match up rangeValue tile size, shorten ver to increase font in tile  
@@ -34,12 +34,20 @@
  2017 Year
 */
 metadata {
-	definition (name: "KOF Zigbee Fan Controller - Light Child Device", namespace: "dcoffing", author: "Stephan Hackett") {
-		capability "Actuator"
+	definition (name: "KOF Zigbee Fan Controller - Light Child Device", namespace: "dcoffing", author: "Stephan Hackett", mnmn: "SmartThings", 
+    	ocfDeviceType: "oic.d.light", vid: "generic-rgbw-color-bulb", minHubCoreVersion: '000.021.00001',runLocally: true, executeCommandsLocally: true) {
+        capability "Actuator"
+        capability "Configuration"
+        capability "Refresh"
+        capability "Sensor"
         capability "Switch"
         capability "Switch Level"
+        capability "Polling"
         capability "Light"
-        capability "Sensor" 
+        
+        command "on"
+        command "off"
+        command "setLevel"
    }
 
 	tiles(scale: 2) { 		
@@ -54,42 +62,68 @@ metadata {
         //		attributeState "level", action: "setLevel"
     	//	}  
 		//}
-        
-         standardTile("switch", "switch", decoration: "flat", width: 6, height: 4, canChangeIcon: true) {    		
-        	state "off", label:"OFF", action: "on", icon: getIcon()+"light_grey.png", backgroundColor: "#ffffff", nextState: "turningOn"
-			state "on", label: "ON", action: "off", icon: getIcon()+"lightH.png", backgroundColor: "#00A0DC", nextState: "turningOff"
-            state "turningOn", label:"TURNING ON", action: "on", icon: getIcon()+"lightI.png", backgroundColor: "#2179b8", nextState: "turningOn"
-            state "turningOff", label:"TURNING OFF", action:"off", icon: getIcon()+"lightI.png", backgroundColor:"#2179b8", nextState: "turningOff"
+        multiAttributeTile(name: "switch", type: "lighting", width: 6, height: 4, canChangeIcon: true) {   
+        	tileAttribute("device.switch", key: "PRIMARY_CONTROL") {
+            	attributeState "on", label:'${name}', action:"off", icon:"st.switches.light.on", backgroundColor:"#00A0DC", nextState:"turningOff"
+                attributeState "off", label:'${name}', action:"on", icon:"st.switches.light.off", backgroundColor:"#ffffff", nextState:"turningOn"
+                attributeState "turningOn", label:'${name}', action:"off", icon:"st.switches.light.on", backgroundColor:"#00A0DC", nextState:"turningOff"
+                attributeState "turningOff", label:'${name}', action:"on", icon:"st.switches.light.off", backgroundColor:"#ffffff", nextState:"turningOn"
+            }
+            
+            tileAttribute ("device.level", key: "SLIDER_CONTROL", width: 4, height: 2) {
+				attributeState "level", action:"setLevel"
+			}
         }    	
-    	controlTile ("level", "level", "slider", width: 4, height: 2) {
-        	state "level", action: "setLevel"
-    	} 
-        valueTile("rangeValue", "device.level", width: 2, height: 2) {
-			state "range", label:'${currentValue}%', defaultState: true
+        
+        standardTile("refresh", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+			state "default", label: "", action: "refresh.refresh", icon: "st.secondary.refresh"
 		}
- 		valueTile("version", "version", width: 6, height: 2) {
-          	state "version", label:"\n Light Child \n" + version()+"\n"
-		}                
+            
+    	// controlTile ("level", "level", "slider", width: 4, height: 2) {
+        // 	state "level", action: "setLevel"
+    	// } 
+		controlTile("levelSliderControl", "device.level", "slider", width: 6, height: 1) {
+	      	state "level", action:"switch level.setLevel"
+      	}
+ 		
     	main(["switch"])        
-		details(["switch", "rangeValue", "level", "version"])    
+		details(["switch", "refresh"])    
     }	
-}
-
-def getIcon() {
-	return "https://cdn.rawgit.com/dcoffing/KOF-CeilingFan/master/resources/images/"
 }
 
 def on() {
 	parent.lightOn()
-	sendEvent(name: "switch", value: "on")
+    log.debug("Fan light turned on")
+    parent.childOn(device.deviceNetworkId)
+    sendEvent(name: "switch", value: "on")
 }
 
 def off() {
 	parent.lightOff()
+    log.debug("Fan light turned off")
     sendEvent(name: "switch", value: "off")
+    parent.childOff(device.deviceNetworkId)
 }
 
 def setLevel(val) {
+	log.debug("Set level called")
 	parent.lightLevel(val)
     sendEvent(name: "level", value: val)
+}
+
+
+/**
+ * PING is used by Device-Watch in attempt to reach the Device
+ * */
+def ping() {
+	log.debug("Ping called")
+    log.debug(parent.refresh())
+	return 
+}
+
+
+def refresh() {
+	log.debug("Refresh called")
+    log.debug(parent.getLevel())
+	return parent.getLevel()
 }
