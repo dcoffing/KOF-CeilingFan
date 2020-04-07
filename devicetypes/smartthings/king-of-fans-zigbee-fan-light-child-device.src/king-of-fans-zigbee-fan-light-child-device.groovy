@@ -39,6 +39,11 @@ metadata {
 		capability "Actuator"
 		capability "Sensor"
         capability "Refresh"
+        capability "Switch Level"
+        
+        command "off"
+        command "on"
+        
 	}
 
     //    Zemismart HGZB-42
@@ -68,16 +73,20 @@ metadata {
 
 void on() {
     log.info "on()"
-	parent.on(device)
-    //sendEvent(name: "device.switch", value: "on")
-    //sendEvent(name: "switch", value: "on")
+	sendEvent(name: "device.switch", value: "on", displayed: true, isStateChange: true)
+    sendEvent(name: "switch", value: "on", displayed: true, isStateChange: true)
+    parent.on(device)
+    
+    
 }
 
 void off() {
 	log.info "off()"
+    sendEvent(name: "switch", value: "off", displayed: true, isStateChange: true)
+    sendEvent(name: "device.switch", value: "off", displayed: true, isStateChange: true)
+    
 	parent.off(device)
-    //sendEvent(name: "switch", value: "off")
-   // sendEvent(name: "device.switch", value: "off")
+    
 }
 
 void refresh() {
@@ -88,16 +97,24 @@ void refresh() {
 
 
 def createAndSendEvent(map) {
-    log.debug "child[ ${device.endpointId} ].sendEvent($map)"
-    sendEvent(map)
-    return map
+    log.debug "child[ ${device.deviceNetworkId} ].createAndSendEvent($map)"
+    	results.each { name, value ->
+    		sendEvent(name: name, value: value)
+  	}
+  	return null
 }
 
 def parse(description) {
-	log.debug "Parse Child: $description"
+	log.debug "PARSE IN Child: $description"
+    
+    //def event = zigbee.getEvent(description)
+    //sendEvent(description)
+    // return sendEvent(event)
+    
+    
 }
 
-def setLevel(value, rate = 10) { parent.setLevel(device, value, rate) }
+def setLevel(value, rate = 10) { parent.setLevel(value, rate, device) }
 
 def poll() {
     log.debug "poll()"
@@ -112,7 +129,7 @@ def ping() {
 def installed () {
     log.debug "installed() - parent $parent"
 
-    sendEvent(name: "checkInterval", value: 10, displayed: false, data: [protocol: "zigbee", hubHardwareId: device.hub.hardwareID])
+    sendEvent(name: "checkInterval", value: 5, displayed: false, data: [protocol: "zigbee", hubHardwareId: device.hub.hardwareID])
 }
 
 def uninstalled () {
