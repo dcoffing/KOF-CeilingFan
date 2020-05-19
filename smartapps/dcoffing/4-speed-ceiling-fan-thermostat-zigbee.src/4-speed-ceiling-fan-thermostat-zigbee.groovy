@@ -273,8 +273,8 @@ private tempCheck(currentTemp, desiredTemp)
 private hasBeenRecentMotion()
 {
 	def isActive = false
-	if (motionSensor && minutes) {
-		def deltaMinutes = minutes as Long
+	if (motionSensor && minutesNoMotion) {
+		def deltaMinutes = minutesNoMotion as Long
 		if (deltaMinutes) {
 			def motionEvents = motionSensor.eventsSince(new Date(now() - (60000 * deltaMinutes)))
 			log.trace "Found ${motionEvents?.size() ?: 0} events in the last $deltaMinutes minutes"
